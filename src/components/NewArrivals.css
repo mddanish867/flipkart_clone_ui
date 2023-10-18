@@ -1,0 +1,23 @@
+#newArrival{
+   background-color: rgba(253, 253, 253, 0.15);
+}
+#newArrivalSection{
+    background-color: #eee;
+}
+#maskNewArrival{
+    background-color: rgba(253, 253, 253, 0.15);
+}
+#maskNewArrival2{
+    background-color: rgba(253, 253, 253, 0.15);
+}
+#btnProductDetails{
+    background-color: #fa2d6e;
+    border-color: #fa2d6e;
+    border-radius: 30px 30px 30px 30px;
+}
+#btnProductWishList{
+    background-color: white;
+    border-color: #fa2d6e;
+    border-radius: 30px 30px 30px 30px;
+    color: black;
+}

@@ -1,0 +1,56 @@
+import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { BiPlus } from "react-icons/bi";
+import { FiMinus } from "react-icons/fi";
+
+
+
+export default function KidWear() {
+  const [userdata, setData] = useState([]);
+  const [productdata, setProductData] = useState([]);
+  let params = useParams();
+  useEffect(() => {
+    const getData = async () => {
+      const response = await axios.get(
+        "https://localhost:7274/api/Account/RetrieveSubCategoryDetails/subcategories?Category=Kids%20Wear"
+      );
+      setData(response.data.result);
+    };
+    getData();   
+    
+  }, []);
+  
+  return (
+    <div>
+    <div className="container">
+      <div className="row">
+        {/* <!-- Pills navs --> */}
+        <ul className="nav nav-pills mb-3 my-2" id="ex1" role="tablist">
+          {userdata.map((data) => {
+            return (
+              <>
+                <li className="nav-item" role="presentation">
+                  <a
+                    className="nav-link"
+                    id="ex1-tab-2"
+                    data-mdb-toggle="pill"
+                    href="#ex1-pills-2"
+                    role="tab"
+                    aria-controls="ex1-pills-2"
+                    aria-selected="false"
+                  >
+                    {data.subCategory}
+                  </a>
+                </li>
+              </>
+            );
+          })}
+        </ul>
+        {/* <!-- Pills navs --> */}
+      </div>
+    </div>
+  </div>
+  );
+}

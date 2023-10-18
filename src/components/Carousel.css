@@ -1,0 +1,32 @@
+.slider{
+    width: 100%;
+    display: flex;
+}
+.card-img-top{
+    height: 290px;
+
+}
+.slider-image{
+    display: flex;
+}
+.btn-container{
+    margin: auto;
+    width: 10px;
+}
+.btnCaraSoul{
+    padding: 35px 10px;
+    background-color: white;
+    font-size: 45px;
+    position: relative;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+}
+.btn-right{
+    position: relative;
+    right: 40px;
+}
+.btn-left{
+    position: relative;
+    left: -15px;
+}

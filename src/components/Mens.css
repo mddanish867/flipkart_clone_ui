@@ -1,0 +1,19 @@
+.cart{
+    width: 270px;
+}
+#cardImage{
+    height: 180px;
+    width: 250px;
+}
+#productName{
+    text-decoration: none;
+}
+#stockId{
+    color:rgba(184, 247, 148, 0.888)
+}
+/* #mensSection{
+    background-color: #eee;
+} */
+#roundedCircle{
+      margin-right: 0px;
+}

@@ -1,0 +1,12 @@
+#Footer{
+    background-color: rgb(226, 36, 36);    
+}
+#btnEmailFooter{
+    border-radius: 30px 0 0 30px;
+    border-color: rgb(226, 36, 36);
+}
+#button-addon2{
+    border-radius: 0 30px 30px 0;
+    border-color: rgb(226, 36, 36);
+
+}
