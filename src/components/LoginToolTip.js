@@ -44,13 +44,13 @@ export default function LoginToolTip() {
     }
   };
   return (
-    <div className="login_tool_tip">
+    <div className="login_tool_tip" style={{width:"auto"}}>
       <div className="login_tool_tip_in">
         <p style={{ marginTop: "15px" }}>New Customer?</p>
         <Link
           to="/signup"
           className="pull-right"
-          style={{ color: "#2874f0", marginLeft: "40px" }}
+          style={{ color: "#2874f0", marginLeft: "40px",textDecoration:"none" }}
         >
           SignUp
         </Link>

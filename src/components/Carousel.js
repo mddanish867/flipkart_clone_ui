@@ -23,7 +23,7 @@ export default function Carousel(props) {
   };
   return (
     <>
-    <div style={{"margin-top":"5px"}}>
+    <div style={{marginTop:"5px"}}>
         <Slider {...settings}>
           <div>
           <img src="https://m.media-amazon.com/images/G/31/img21/MA2023/accessories-fest/Sept/AF/Accesories_MA_PC._CB577800217_.gif"

@@ -47,7 +47,7 @@ export default function Shoes() {
     <div className="container">
       <div className="row">
         <aside className="col-md-3">
-          <div className="card my-4" style={{"border-radius":"0 0 0 0"}}>
+          <div className="card my-4" style={{borderRadius:"0 0 0 0"}}>
           
             <article className="filter-group">
               <header className="card-header">                
@@ -211,7 +211,7 @@ export default function Shoes() {
             <article className="filter-group">
               <header className="card-header">              
              <h6 className="title">PRICE RANGE </h6>  
-             < RiArrowDropDownLine className="float-right" style={{"width":"20%","margin-top":"-20px","height":"50px;"}}/>              
+             < RiArrowDropDownLine className="float-right" style={{width:"20%",marginTop:"-20px",height:"50px;"}}/>              
               </header>
               <div className="filter-content collapse show" id="collapse_3">
                 <div className="card-body">

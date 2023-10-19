@@ -2,13 +2,14 @@
     display: flex;
     align-items: center;
     padding: 0px 7px;
+    width: auto;
 }
 .login_tool_tip_in.profileIcon{
     margin-right: 10px;
 }
 .login_tool_tip{
     background-color: white;
-    width: 250px;
+    width: 260px;
 }
 .login_tool_tip>hr{
     margin-left: -10px;

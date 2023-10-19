@@ -33,7 +33,6 @@ import Header from "./components/Header";
 import ProductSummary from "./components/OrderResponse";
 import MultiItemCarousel from "./components/MultiItemCarousel";
 import OrderResponse from "./components/OrderResponse";
-import LoginModel from "./components/LoginModel";
 import OrderDetails from "./components/OrderDetails";
 import RatingAndReviews from "./components/RatingAndReviews/RatingAndReviews";
 

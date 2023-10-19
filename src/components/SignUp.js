@@ -51,80 +51,240 @@ export default function SignUp(props) {
     
    
   
-  return (
-    <div>
-       
-  
-  
-    <div className="container">  
-        
-      <div className="card o-hidden border-0 shadow-lg my-5" style={{ "marginTop": "5rem!important;" }}>  
-        <div className="card-body p-0">  
-          <div className="row">  
-            <div className="col-lg-12">  
-              <div className="p-5">  
-                <div className="text-center">  
-                  <h1 className="h4 text-gray-900 mb-4">Create a New User</h1>  
-                </div>  
-                <form  className="user">  
-                  <div className="form-group row">  
-                    <div className="col-sm-6 mb-3 mb-sm-0 my-2">  
-                      <input type="text" name="FirstName" style={{ "border-color": "black" }}  onChange={(e) => handleFirstNameChange(e.target.value)} className="form-control" id="exampleFirstName" placeholder="Enter first name" />  
-                    </div>  
-                    <div className="col-sm-6 my-2">  
-                      <input type="text" name="LastName" style={{ "border-color": "black" }}  onChange={(e) => handleLastNameChange(e.target.value)} className="form-control" id="exampleLastName" placeholder="Enter last name" />  
-                    </div>  
-                  </div>  
-                  
-                  <div className="form-group row">  
-                    <div className="col-sm-6 mb-3 mb-sm-0 my-2">  
-                      <input type="text" name="Email" style={{ "border-color": "black" }}  onChange={(e) => handleEmailChange(e.target.value)} className="form-control" id="exampleInputPassword" placeholder="Enter email" />  
-                    </div>  
-                    <div className="col-sm-6 my-2">  
-                      <input type="mobile" name="MobileNumber" style={{ "border-color": "black" }}  onChange={(e) => handleMobileNumberChange(e.target.value)} className="form-control" id="exampleRepeatPassword" placeholder="Enter mobile number" />  
-                    </div>  
-                  </div> 
+  return (       
+       <section style={{ backgroundColor: "#f1f3f6" }}>
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="my-5">
+            {/* <div className="card-body p-0"> */}
+            <div className="row">
+              <div
+                className="col-3"
+                style={{
+                  backgroundColor: "#2874f0",
+                  width: "30%",
+                  height: "500px",
+                  marginTop: "-32px",
+                  marginLeft: "147px",
+                }}
+              >
+                <h1
+                  className="mx-4 my-4"
+                  style={{
+                    color: "white",
+                    fontSize: "28px",
+                    fontFamily: "500",
+                  }}
+                >
+                  Looks like you're new here!
+                </h1>
+                <p
+                  className="mx-3 my-4"
+                  style={{ color: "#dbdbdb", fontSize: "18px" }}
+                >
+                  Sign up with your mobile number to get started
+                </p>
+                <img
+                  src={
+                    "https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/login_img_c4a81e.png"
+                  }
+                  style={{ marginTop: "165px", marginLeft: "50px" }}
+                />
+              </div>
+              <div
+                className="col-5"
+                style={{
+                  backgroundColor: "white",
+                  boxShadow: "0 2px 4px 0 rgba(0,0,0,.08",
+                  borderRadius: "0 0 0 0",
+                  marginTop: "-32px",
+                }}
+              >
+                <form className="user">
+                  <div className="form-floating mb-3" style={{marginTop:"26px"}}>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="firstName"
+                      onChange={(e) => handleFirstNameChange(e.target.value)}
+                      style={{
+                        borderBottom: "2 px solid black",
+                        outline: "none",
+                        marginLeft: "10px",
+                        borderRight: 0,
+                        borderLeft: 0,
+                        borderTop: 0,
+                        width: "417px",                        
+                      }}
+                      placeholder="name@example.com"
+                    />
+                    <label htmlFor="firstName" className="text-muted" >Enter First Name</label>
+                  </div>
 
-                  <div className="form-group row">  
-                    <div className="col-sm-6 mb-3 mb-sm-0 my-2">  
-                      <input type="password" name="Password" style={{ "border-color": "black" }}  onChange={(e) => handlePasswordChange(e.target.value)} className="form-control" id="exampleInputPassword" placeholder="Enter password" />  
-                    </div>  
-                    <div className="col-sm-6 my-2">  
-                      <input type="password" name="ConfirmPassword" style={{ "border-color": "black" }}  onChange={(e) => handleConfirmPasswordChange(e.target.value)} className="form-control" id="exampleRepeatPassword" placeholder="Enter confirm password" />  
-                    </div>  
-                  </div>  
-                  <button type="button" style={{ "border-radius": "0 0 0 0", "width":"365px" }}  className="btn btn-primary btn-block mb-4 my-4" onClick={(e) => handleCreate()}>Create account</button>
+                  <div className="form-floating" style={{marginTop:"-26px"}}>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="lastName"
+                      placeholder="Last Name"
+                      onChange={(e) => handleLastNameChange(e.target.value)}
+                      style={{
+                        borderBottom: "1 px solid black",
+                        outline: "none",
+                        marginTop: "25px",
+                        marginLeft: "10px",
+                        borderRight: 0,
+                        borderLeft: 0,
+                        borderTop: 0,
+                        width: "417px",
+                      }}
+                    />
+                    <label htmlFor="lastName" className="text-muted">Enter Last Name</label>
+                  </div>
+                  <div className="form-floating" style={{marginTop:"-26px"}}>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      placeholder="Email"
+                      onChange={(e) => handleEmailChange(e.target.value)}
+                      style={{
+                        borderBottom: "1 px solid black",
+                        outline: "none",
+                        marginTop: "25px",
+                        marginLeft: "10px",
+                        borderRight: 0,
+                        borderLeft: 0,
+                        borderTop: 0,
+                        width: "417px",
+                      }}
+                    />
+                    <label htmlFor="email" className="text-muted">Enter Email</label>
+                  </div>
+                  <div className="form-floating" style={{marginTop:"-26px"}}>
+                    <input
+                      type="mobile"
+                      className="form-control"
+                      id="mobileNumber"
+                      placeholder="Password"
+                      onChange={(e) => handleMobileNumberChange(e.target.value)}
+                      style={{
+                        borderBottom: "1 px solid black",
+                        outline: "none",
+                        marginTop: "25px",
+                        marginLeft: "10px",
+                        borderRight: 0,
+                        borderLeft: 0,
+                        borderTop: 0,
+                        width: "417px",
+                      }}
+                    />
+                    <label htmlFor="mobileNumber" className="text-muted">Enter Mobile Number</label>
+                  </div>
+                  <div className="form-floating" style={{marginTop:"-26px"}}>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      placeholder="Password"
+                      onChange={(e) => handlePasswordChange(e.target.value)}
+                      style={{
+                        borderBottom: "1 px solid black",
+                        outline: "none",
+                        marginTop: "25px",
+                        marginLeft: "10px",
+                        borderRight: 0,
+                        borderLeft: 0,
+                        borderTop: 0,
+                        width: "417px",
+                      }}
+                    />
+                    <label htmlFor="password" className="text-muted">Enter Password</label>
+                  </div>
+                  <div className="form-floating" style={{marginTop:"-26px"}}>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="cpassword"
+                      placeholder="Password"
+                      onChange={(e) => handleConfirmPasswordChange(e.target.value)}
+                      style={{
+                        borderBottom: "1 px solid black",
+                        outline: "none",
+                        marginTop: "25px",
+                        marginLeft: "10px",
+                        borderRight: 0,
+                        borderLeft: 0,
+                        borderTop: 0,
+                        width: "417px",
+                      }}
+                    />
+                    <label htmlFor="cpassword" className="text-muted">Enter Confirm Password</label>
+                  </div>
+                  <spna
+                    style={{
+                      color: "#878787",
+                      fontSize: "12px",
+                      fontWeight: "400",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    By continuing, you agree to Flipkart's{" "}
+                    <a herf="/" style={{ textDecoration: "none" }}>
+                      Terms of Use
+                    </a>{" "}
+                    and{" "}
+                    <a href="/" style={{ textDecoration: "none" }}>
+                      Privacy Policy
+                    </a>
+                    .
+                  </spna>
+                  <button
+                    type="submit"
+                    className="btn btn-primary mb-1 my-2"
+                    onClick={(e) => handleCreate()}
+                    style={{
+                      borderBottom: "0 0 0 0",
+                      width: "417px",
+                      backgroundColor: "#fb641b",
+                      border: "none",
+                      borderRadius: "0 0 0 0",
+                      height: "50px",
+                      marginLeft: "10px",
+                    }}
+                    block
+                  >
+                    <span style={{ fontWeight: 500 }}>CREATE ACCOUNT</span>
+                  </button>
                   <div className="text-center">
-    <p>Already have account? <Link to="/signin" style={{"text-decoration":"none"}}>Sign In</Link></p>
-    {/* <p>or sign up with:</p>
-    <button type="button" className="btn btn-link btn-floating mx-1">
-      <i className="fab fa-facebook-f"></i>
-    </button>
-
-    <button type="button" className="btn btn-link btn-floating mx-1">
-      <i className="fab fa-google"></i>
-    </button>
-
-    <button type="button" className="btn btn-link btn-floating mx-1">
-      <i className="fab fa-twitter"></i>
-    </button>
-
-    <button type="button" className="btn btn-link btn-floating mx-1">
-      <i className="fab fa-github"></i>
-    </button> */}
-  </div>
-                 
-                </form>  
-               
-              </div>  
-            </div>  
-          </div>  
-        </div>  
-      </div>  
-    </div>  
-  )  
+                    <p
+                      style={{
+                        fontWeight: 500,
+                        color: "#2874f0",
+                        border: "none",
+                        outline: "none",
+                        fontSize: "14px",
+                        marginTop: "230px",
+                      }}
+                    >
+                      <Link to="/signup" style={{ textDecoration: "none" }}>
+                      Already have account? Sign in
+                      </Link>
+                    </p>
+                    
+                  </div>
+                </form>
+              </div>
+            </div>
+            {/* </div> */}
+          </div>
+        </div>
+      </div>
+    </section>
+  
+     
+    
  
   
-    </div>
   )
 }

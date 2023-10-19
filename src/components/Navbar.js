@@ -30,7 +30,7 @@ export default function Navbar() {
                 for (let i = 0; i < data.category.length; i++) {
                   if (data.category === "Mens Wear") {
                     return (
-                      <li className="list-group-item px-3" style={{marginBottom:"5px"}}>
+                      <li className="list-group-item px-3" style={{marginBottom:"5px",fontSize:"14px"}}>
                         <Link to="/mens" id="cat1">
                           {data.category}
                         </Link>
@@ -38,7 +38,7 @@ export default function Navbar() {
                     );
                   } else if (data.category === "Womens Wear") {
                     return (
-                      <li className="list-group-item px-3">
+                      <li className="list-group-item px-3" style={{marginBottom:"5px",fontSize:"14px"}}>
                         <Link to="/women" id="cat1">
                           {data.category}
                         </Link>
@@ -46,7 +46,7 @@ export default function Navbar() {
                     );                  
                   } else if (data.category === "Kids Wear") {
                     return (
-                      <li className="list-group-item px-3">
+                      <li className="list-group-item px-3" style={{marginBottom:"5px",fontSize:"14px"}}>
                         <Link to="/kidwear" id="cat1">
                           {data.category}
                         </Link>
@@ -54,7 +54,7 @@ export default function Navbar() {
                     );
                   } else if (data.category === "Electronics") {
                     return (
-                      <li className="list-group-item px-3">
+                      <li className="list-group-item px-3" style={{marginBottom:"5px",fontSize:"14px"}}>
                         <Link to="/electronics" id="cat1">
                           {data.category}
                         </Link>
@@ -62,7 +62,7 @@ export default function Navbar() {
                     );
                   } else if (data.category === "Appliances") {
                     return (
-                      <li className="list-group-item px-3">
+                      <li className="list-group-item px-3" style={{marginBottom:"5px",fontSize:"14px"}}>
                         <Link to="/appliances" id="cat1">
                           {data.category}
                         </Link>
@@ -70,7 +70,7 @@ export default function Navbar() {
                     );
                   } else if (data.category === "Sports & Books") {
                     return (
-                      <li className="list-group-item px-3">
+                      <li className="list-group-item px-3" style={{marginBottom:"5px",fontSize:"14px"}}>
                         <Link to="/sportsbooks" id="cat1">
                           {data.category}
                         </Link>
@@ -78,7 +78,7 @@ export default function Navbar() {
                     );
                   } else if (data.category === "Beauty & Health") {
                     return (
-                      <li className="list-group-item px-3">
+                      <li className="list-group-item px-3" style={{marginBottom:"5px",fontSize:"14px"}}>
                         <Link to="/beautyhealth" id="cat1">
                           {data.category}
                         </Link>
@@ -86,7 +86,7 @@ export default function Navbar() {
                     );
                   } else if (data.category === "Home & Furniture") {
                     return (
-                      <li className="list-group-item px-3">
+                      <li className="list-group-item px-3" style={{marginBottom:"5px",fontSize:"14px"}}>
                         <Link to="/homefurniture" id="cat1">
                           {data.category}
                         </Link>
@@ -94,7 +94,7 @@ export default function Navbar() {
                     );
                   } else {
                     return (
-                      <li className="list-group-item px-3">
+                      <li className="list-group-item px-3" style={{marginBottom:"5px",fontSize:"14px"}}>
                         <Link to="/admindashboard" id="cat1">
                           {data.category}
                         </Link>

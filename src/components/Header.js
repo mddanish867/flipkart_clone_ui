@@ -1,5 +1,5 @@
 import React from "react";
-import { MdSearch } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { FaShoppingCart } from "react-icons/fa";
 import Tippy from "@tippyjs/react";
@@ -53,7 +53,7 @@ export default function Header() {
       </div>
       <div className="header__second">
         <input type="text" placeholder="Search for products, brands and more" />
-        <MdSearch className="icon" />
+        <FaSearch className="icon" />
       </div>
       {!flag && (
  <div className="header__third">
@@ -80,8 +80,8 @@ export default function Header() {
         <RiArrowDropDownLine style={{ color: "white" }} />
       </div>
       <div className="header__fifth">
-        <Link to="/cart">
-          <FaShoppingCart className="IconCart" style={{ color: "white" }} />
+        <Link to="/cart" style={{ color: "white",textDecoration:"none",fontWeight:600 }}>
+          Cart<FaShoppingCart className="IconCart mx-1" style={{ color: "white" }} />
         </Link>
       </div>
     </div>

@@ -23,12 +23,11 @@
 }
 #navbar1{
     background-color: white;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
     bottom: 0px;
     color: black;
-    height: auto;
-    margin-top: -20px;
+    height: 22px;
     font-weight: 600;
+    box-shadow:0 2px 4px 0 rgba(0,0,0,.08)
 }
 #brand{
     margin-left: 20px;
