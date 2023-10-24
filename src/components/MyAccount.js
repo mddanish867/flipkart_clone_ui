@@ -41,7 +41,7 @@ export default function MyAccount() {
     ) {
       navigate("/signin");
     } else {
-      navigate("profile");
+      navigate("account");
     }
   };
 

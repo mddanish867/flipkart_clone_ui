@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,9 +8,11 @@ import { BsHeart } from "react-icons/bs";
 import { LiaSearchSolid } from "react-icons/lia";
 import TopTrending from "./TopTrending";
 import { FaAngleRight } from "react-icons/fa";
+
 import "./Mens.css";
 
-export default function MultiItemCarousel() {
+
+export default function HomeAndKitchenEssential() {
   const [productdata, setProductData] = useState([]);
   let [username, setUsername] = useState("");
 
@@ -94,7 +96,7 @@ export default function MultiItemCarousel() {
         marginRight: "16px",
       }}
     >
-      <h4 style={{ marginLeft: "16px" }}> Fashion Top Deals</h4>
+      <h4 style={{ marginLeft: "16px" }}> Home & Kitchen Essentials</h4>
       <button
         style={{
           backgroundColor: "#0d6efd",

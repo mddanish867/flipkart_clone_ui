@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,8 +10,8 @@ import TopTrending from "./TopTrending";
 import { FaAngleRight } from "react-icons/fa";
 import "./Mens.css";
 
-export default function MultiItemCarousel() {
-  const [productdata, setProductData] = useState([]);
+export default function BestofElectronics() {
+    const [productdata, setProductData] = useState([]);
   let [username, setUsername] = useState("");
 
   let navigate = useNavigate();
@@ -94,7 +94,7 @@ export default function MultiItemCarousel() {
         marginRight: "16px",
       }}
     >
-      <h4 style={{ marginLeft: "16px" }}> Fashion Top Deals</h4>
+      <h4 style={{ marginLeft: "16px" }}> Best of Electronics</h4>
       <button
         style={{
           backgroundColor: "#0d6efd",

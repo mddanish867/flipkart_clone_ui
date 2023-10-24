@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import Navbar2 from "./components/Navbar2";
 import Carousel from "./components/Carousel";
 import NewTrending from "./components/NewTrending";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -35,11 +34,13 @@ import MultiItemCarousel from "./components/MultiItemCarousel";
 import OrderResponse from "./components/OrderResponse";
 import OrderDetails from "./components/OrderDetails";
 import RatingAndReviews from "./components/RatingAndReviews/RatingAndReviews";
+import Account from "./components/Account/Account";
 
 function App() {
   return (
     <>
-      <Router>
+    <div style={{backgroundColor:"#f0f0f0"}}>
+    <Router>
         <Header/>
         {/* <Navbar2/> */}
        <br/>
@@ -49,25 +50,15 @@ function App() {
 
 
         <Routes>
-        <Route exact path="/" element={<Carousel />} />       
-        <Route exact path="/" element={<MultiItemCarousel />} />
-          <Route exact path="/" element={<NewTrending />} />
-          <Route exact path="/" element={<NewArrivals />} />
+        <Route exact path="/" element={<Carousel />} />      
+       
           <Route exact path="/ordersummary" element={<OrderSummary />} />
           <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/signin" element={<SignIn />} />
           <Route exact path="/order" Component={Order}/>
           <Route exact path="/mens" element={<Mens />} />
           <Route exact path="/women" element={<Women />} />
-          <Route
-            exact
-            path="/productdetails/:productId"
-            Component={ProductDetails}
-          />
-          <Route exact path="/electronics" element={<Electronics />} />
-          <Route exact path="/sportsbooks" element={<SportsBooks />} />
-          <Route exact path="/beautyhealth" element={<BeautyHealth />} />
-          <Route exact path="/homefurniture" element={<HomeFurniture />} />
+          <Route exact path="/productdetails/:productId" Component={ProductDetails} />
           <Route exact path="/forgotpassword" element={<ForgotPassword />} />
           <Route exact path="/kidwear" element={<KidWear />} />
           <Route exact path="/admindashboard" element={<AdminDashboard />} />
@@ -77,15 +68,17 @@ function App() {
           <Route exact path="/shirts" element={<Shirts />} />
           <Route exact path="/tshirts" element={<TShirts />} />
           <Route exact path="/shoes" element={<Shoes />} />
-          <Route exact path="/bestelectronics" element={<BestElectronics />} />
           <Route exact path="/productsummary" element={<ProductSummary />} />
-          <Route exact path="/multiitemcarousel" element={<MultiItemCarousel />} />
           <Route exact path="/orderresponse" element={<OrderResponse />} />
           <Route exact path="/orderdetails/:orderTrackId" Component={OrderDetails} />
           <Route exact path="/ratingandreviews/:orderTrackId" Component={RatingAndReviews} />
+          <Route exact path="/account" element={<Account />} />
+
         </Routes>
         <Footer />
       </Router>
+    </div>
+      
     </>
   );
 }

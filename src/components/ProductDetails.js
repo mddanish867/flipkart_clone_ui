@@ -154,11 +154,11 @@ export default function ProductDetails() {
 
   return (
     <>
-      <div className="my-1">
+      <div>
         
 
         <div className="row">
-          <div className="col-2 my-1" style={{marginTop:"-54px"}}>
+          <div className="col-2" style={{marginTop:"0",backgroundColor:"#fff"}}>
             <div className="container">
               {ProductImage.map((data) => {
                 return (
@@ -190,7 +190,7 @@ export default function ProductDetails() {
           {getProductId.map((data) => {
          
             return (
-              <div className="col-10">
+              <div className="col-10" style={{backgroundColor:"#fff"}}>
                 <section className="py-5">
                   <div className="container">
                     <div className="row">
@@ -336,7 +336,7 @@ export default function ProductDetails() {
                                   className="btn-check "
                                   name="options-outlined"
                                   id="primary-outlined-s"
-                                  autocomplete="off"
+                                  autoComplete="off"
                                 />
                                 <label
                                   className="btn btn-outline-primary mx-2"
@@ -354,7 +354,7 @@ export default function ProductDetails() {
                                   className="btn-check "
                                   name="options-outlined"
                                   id="primary-outlined-l"
-                                  autocomplete="off"
+                                  autoComplete="off"
                                 />
                                 <label
                                   className="btn btn-outline-primary mx-2"
@@ -372,7 +372,7 @@ export default function ProductDetails() {
                                   className="btn-check"
                                   name="options-outlined"
                                   id="primary-outlined-xl"
-                                  autocomplete="off"
+                                  autoComplete="off"
                                 />
                                 <label
                                   className="btn btn-outline-primary mx-2"
@@ -390,7 +390,7 @@ export default function ProductDetails() {
                                   className="btn-check"
                                   name="options-outlined"
                                   id="primary-outlined-xxl"
-                                  autocomplete="off"
+                                  autoComplete="off"
                                 />
                                 <label
                                   className="btn btn-outline-primary mx-2"
@@ -421,7 +421,7 @@ export default function ProductDetails() {
                                       className="btn-check"
                                       name="outlined"
                                       id={data.imageUrl}
-                                      autocomplete="off"
+                                      autoComplete="off"
                                     />
                                     <label
                                       className="btn btn-light mx-2"
@@ -524,20 +524,20 @@ export default function ProductDetails() {
           
             
         </div>
-        <div className="container">
-          <h4 className="mx-4">Frequently bought together</h4>
+        <div >
+          {/* <h4 className="mx-4">Frequently bought together</h4> */}
           <MultiItemCarousel/>
         </div>
-        <div className="container">
-          <h4 className="mx-4">You might be interested in</h4>
+        <div >
+          {/* <h4 className="mx-4">You might be interested in</h4> */}
           <MultiItemCarousel/>
         </div>
-        <div className="container">
-          <h4 className="mx-4"> Bought together</h4>
+        <div >
+          {/* <h4 className="mx-4"> Bought together</h4> */}
           <MultiItemCarousel/>
         </div>
-        <div className="container">
-          <h4 className="mx-4">Recently viewed</h4>
+        <div>
+          {/* <h4 className="mx-4">Recently viewed</h4> */}
           <MultiItemCarousel/>
         </div>
 

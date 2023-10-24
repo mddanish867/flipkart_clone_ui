@@ -1,9 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { BiBold, BiPlus } from "react-icons/bi";
-import { FiMinus } from "react-icons/fi";
+import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { PiNumberSquareOne,PiNumberSquareTwo,PiNumberSquareThree,PiNumberSquareFour } from "react-icons/pi";
 import axios from "axios";
 import "./Order.css";
 
@@ -336,7 +336,6 @@ export default function Order() {
   };
 
   // method to send order confirmation mail
-  
 
   const handleCashOnDeliveryContinue = () => {
     if (captchaVerification === captcha) {
@@ -387,15 +386,16 @@ export default function Order() {
   };
   return (
     <>
-      <section className="py-4" style={{backgroundColor:"#f1f3f6"}}>
+      <section className="py-4" style={{ backgroundColor: "#f1f3f6" }}>
         <div className="row gx-4">
-          <div className="col-lg-8 mb-4" style={{backgroundColor:"#f1f3f6"}}>
-            <div className="px-3 py-2 bg-white" >
+          <div className="col-lg-8 mb-4" style={{ backgroundColor: "#f1f3f6" }}>
+            <div className="px-3 py-2">
               {/* <!-- Pills navs --> */}
               <ul
                 className="nav nav-pills nav-justified mb-3"
                 id="ex1"
-                role="tablist"                
+                role="tablist"
+                style={{ backgroundColor: "#fff", height: "80px" }}
               >
                 <li className="nav-item d-flex" role="presentation">
                   <Link
@@ -404,7 +404,7 @@ export default function Order() {
                     data-mdb-toggle="pill"
                     onClick={handleStep1}
                     role="tab"
-                    style={{ color: "#20BD99" }}
+                    style={{ color: "#0d6efd", fontWeight: 500 }}
                   >
                     1 - LOGIN
                   </Link>
@@ -417,7 +417,7 @@ export default function Order() {
                     onClick={handleStep2}
                     role="tab"
                     aria-controls="ex1-pills-2"
-                    style={{ color: "#20BD99" }}
+                    style={{ color: "#0d6efd", fontWeight: 500 }}
                   >
                     2 - DELIVERY ADDRESS
                   </Link>
@@ -430,7 +430,7 @@ export default function Order() {
                     onClick={handleStep3}
                     role="tab"
                     aria-controls="ex1-pills-3"
-                    style={{ color: "#20BD99" }}
+                    style={{ color: "#0d6efd", fontWeight: 500 }}
                   >
                     3 - ORDER SUMMARY
                   </Link>
@@ -443,17 +443,51 @@ export default function Order() {
                     onClick={handleStep4}
                     role="tab"
                     aria-controls="ex1-pills-4"
-                    style={{ color: "#20BD99" }}
+                    style={{ color: "#0d6efd", fontWeight: 500 }}
                   >
                     4 - PAYMENT OPTIONS
                   </Link>
                 </li>
               </ul>
-
-              {/* <!-- Pills navs --> */}
-              {step1 && (
-                <div className="tab-content my-4" id="ex1-content">
-                  <div className="container">
+            </div>
+            {/* <!-- Pills navs --> */}
+            {step1 && (
+              <>
+                <div
+                  style={{
+                    backgroundColor: "#0d6efd",
+                    height: "50px",
+                    marginLeft: "16px",
+                    marginRight: "17px",
+                    color: "#fff",
+                    fontWeight: 700,
+                  }}
+                >
+                  <PiNumberSquareOne
+                    style={{
+                      color: "#0d6efd",
+                      width: "30px",
+                      height: "30px",
+                      backgroundColor: "#fff",
+                      marginLeft: "30px",
+                      marginTop: "10px",
+                    }}
+                  />
+                  <span style={{ marginLeft: "30px", marginTop: "10px" }}>
+                    LOGIN
+                  </span>
+                </div>
+                <div
+                  className="tab-content my-2"
+                  id="ex1-content"
+                  style={{
+                    backgroundColor: "#fff",
+                    marginLeft: "16px",
+                    marginRight: "17px",
+                    marginTop: "-23px",
+                  }}
+                >
+                  <div className="">
                     <p className="mx-4 my-4">
                       Name:{" "}
                       <b>
@@ -492,9 +526,42 @@ export default function Order() {
                     </p>
                   </div>
                 </div>
-              )}
-              {step2 && (
-                <div className="container">
+              </>
+            )}
+            {step2 && (
+              <>
+                <div
+                  style={{
+                    backgroundColor: "#0d6efd",
+                    height: "50px",
+                    marginLeft: "16px",
+                    marginRight: "17px",
+                    color: "#fff",
+                    fontWeight: 700,
+                  }}
+                >
+                  <PiNumberSquareTwo
+                    style={{
+                      color: "#0d6efd",
+                      width: "30px",
+                      height: "30px",
+                      backgroundColor: "#fff",
+                      marginLeft: "30px",
+                      marginTop: "10px",
+                    }}
+                  />
+                  <span style={{ marginLeft: "30px", marginTop: "10px" }}>
+                    DELIVERY ADDRESS
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    backgroundColor: "#fff",
+                    marginLeft: "16px",
+                    marginRight: "17px",
+                  }}
+                >
                   <Link
                     type="button"
                     className="my-4 mx-4"
@@ -761,12 +828,40 @@ export default function Order() {
                     </button>
                   </div>
                 </div>
-              )}
-              {step3 && (
-                <section
-                  className=" py-4"
+              </>
+            )}
+            {step3 && (
+              <>
+                <div
                   style={{
-                    backgroundColor: "white",
+                    backgroundColor: "#0d6efd",
+                    height: "50px",
+                    marginLeft: "16px",
+                    marginRight: "17px",
+                    color: "#fff",
+                    fontWeight: 700,
+                  }}
+                >
+                  <PiNumberSquareThree
+                    style={{
+                      color: "#0d6efd",
+                      width: "30px",
+                      height: "30px",
+                      backgroundColor: "#fff",
+                      marginLeft: "30px",
+                      marginTop: "10px",
+                    }}
+                  />
+                  <span style={{ marginLeft: "30px", marginTop: "10px" }}>
+                    ORDER SUMMARY
+                  </span>
+                </div>
+
+                <section
+                  style={{
+                    backgroundColor: "#fff",
+                    marginLeft: "16px",
+                    marginRight: "17px",
                   }}
                 >
                   <div className="container">
@@ -776,8 +871,11 @@ export default function Order() {
                           {productById.map((data) => {
                             return (
                               <div className="py-1 col-12 mx-1 pull-left">
-                                <div className="row justify-content-center mb-3" style={{ boxShadow: "0 2px 4px 0 rgba(0,0,0,.08)"}}>
-                                  <div className="card mx-1" style={{border:"none"}}>
+                                <div className="row justify-content-center mb-3">
+                                  <div
+                                    className="card mx-1"
+                                    style={{ border: "none" }}
+                                  >
                                     <div
                                       className="card-body"
                                       key={data.productId}
@@ -789,6 +887,10 @@ export default function Order() {
                                               src={data.productImageurl}
                                               className="w-100"
                                               alt=""
+                                              style={{
+                                                height: "110px",
+                                                marginLeft: "-60px",
+                                              }}
                                             />
                                             <Link>
                                               <div className="hover-overlay">
@@ -800,95 +902,126 @@ export default function Order() {
                                             </Link>
                                           </div>
                                         </div>
-                                        <div className="col-md-6 col-lg-6 col-xl-6">
-                                          <h5>
-                                            {data.productName.slice(0, 30)}
-                                          </h5>
-
-                                          <div className="d-flex flex-row">
-                                            <div className="d-flex flex-row align-items-center mb-1">
-                                              <h4 className="mb-1 me-1 text-success">
-                                                &#8377; {data.productDiscount}
-                                              </h4>
-                                              <span className="text-danger">
-                                                <s>
-                                                  &#8377; {data.productPrice}
-                                                </s>
-                                              </span>
-                                            </div>
-                                          </div>
-                                          <div className="d-flex flex-row">
-                                            <b>Size: </b>{" "}
-                                            <span> {data.size} </span>
-                                          </div>
-                                          <div className="d-flex flex-row">
-                                            <b>Color:</b>{" "}
-                                            <span> {data.color} </span>
-                                          </div>
-                                          <div className="d-flex flex-row">
-                                            <b>Brand:</b>{" "}
-                                            <span> {data.brands} </span>
-                                          </div>
-
-                                          <div
-                                            className="input-group mb-3 my-1"
+                                        <div
+                                          className="col-md-6 col-lg-6 col-xl-6"
+                                          style={{ marginLeft: "-72px" }}
+                                        >
+                                          <p
                                             style={{
-                                              display: "flex",
+                                              fontSize: "16px",
+                                              fontWeight: 500,
                                             }}
                                           >
-                                            <button
-                                              className="btn btn-white px-3"
-                                              type="button"
-                                              style={{
-                                                width: "50px",
-                                              }}
-                                              data-mdb-ripple-color="dark"
-                                              disabled={state}
-                                              onClick={handleDecrement}
-                                            >
-                                              <FiMinus />
-                                            </button>
-                                            <input
-                                              type="text"
-                                              className="form-control text-center "
-                                              aria-label="Example text with button addon"
-                                              aria-describedby="button-addon1"
-                                              id="countCartSet"
-                                              value={count}
-                                            />
-                                            <button
-                                              className="btn btn-white px-3"
-                                              type="button"
-                                              style={{
-                                                width: "50px",
-                                              }}
-                                              data-mdb-ripple-color="dark"
-                                              onClick={() =>
-                                                setCount(count + 1)
-                                              }
-                                            >
-                                              <BiPlus />
-                                            </button>
-
-                                            <button
-                                              className="btn btn-outline-primary btn-sm mt-2 mx-1"
-                                              id="btnProductcartRemove"
-                                              type="button"
-                                              onClick={(e) =>
-                                                handleRemoveFromCart(
-                                                  data.productId
-                                                )
-                                              }
-                                            >
-                                              REMOVE
-                                            </button>
+                                            {data.productName.slice(0, 30)}...
+                                          </p>
+                                          <div
+                                            className="d-flex flex-row"
+                                            style={{
+                                              color: "rgba(135, 135, 135)",
+                                              fontSize: "14px",
+                                              height: "20px",
+                                            }}
+                                          >
+                                            Size:{" "}
+                                            <span className="mx-1">
+                                              {" "}
+                                              {data.size}{" "}
+                                            </span>
+                                            Color:{" "}
+                                            <span className="mx-1">
+                                              {" "}
+                                              {data.color}{" "}
+                                            </span>
+                                          </div>
+                                          <div className="d-flex flex-row">
+                                            <div className="d-flex flex-row align-items-center mb-1">
+                                              <span
+                                                style={{
+                                                  fontSize: "14px",
+                                                  color: "#878787",
+                                                }}
+                                              >
+                                                <s>
+                                                  &#8377;{data.productPrice}
+                                                </s>
+                                              </span>
+                                              <h4
+                                                className="mb-1 me-1 mx-2"
+                                                style={{
+                                                  fontSize: "18px",
+                                                  color: "black",
+                                                }}
+                                              >
+                                                &#8377;{data.productDiscount}
+                                              </h4>
+                                              <span
+                                                className="text-success mx-2"
+                                                style={{ fontWeight: 500 }}
+                                              >
+                                                &#8377;
+                                                {(
+                                                  (data.productDiscount /
+                                                    data.productPrice) *
+                                                  100
+                                                ).toFixed(2)}
+                                                % off
+                                              </span>
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                                {/*                   */}
+                                <div
+                                  className="input-group mb-3 my-1"
+                                  style={{
+                                    display: "flex",
+                                    width: "220px",
+                                    marginLeft: "-40px",
+                                  }}
+                                >
+                                  <button
+                                    className="btn btn-white px-3"
+                                    type="button"
+                                    style={{
+                                      width: "50px",
+                                    }}
+                                    data-mdb-ripple-color="dark"
+                                    disabled={state}
+                                    onClick={handleDecrement}
+                                  >
+                                    <FiMinusCircle />
+                                  </button>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    id="countCartSet"
+                                    value={count}
+                                  />
+                                  <button
+                                    className="btn btn-white px-3"
+                                    type="button"
+                                    style={{
+                                      width: "50px",
+                                    }}
+                                    data-mdb-ripple-color="dark"
+                                    onClick={() => setCount(count + 1)}
+                                  >
+                                    <FiPlusCircle />
+                                  </button>
+
+                                  <button
+                                    className="btn btn-outline-primary btn-sm mt-2 mx-1"
+                                    id="btnProductcartRemove"
+                                    type="button"
+                                    onClick={(e) =>
+                                      handleRemoveFromCart(data.productId)
+                                    }
+                                  >
+                                    REMOVE
+                                  </button>
+                                </div>
                               </div>
                             );
                           })}
@@ -917,187 +1050,232 @@ export default function Order() {
                     </div>
                   </div>
                 </section>
-              )}
-              {step4 && (
-                <div className="container">
-                  <ul
-                    className="list-group list-group-flush"
-                    id="ex1"
-                    role="tablist"
-                  >
-                    <li
-                      className="list-group-item d-flex  align-items-center px-0"
-                      role="presentation"
-                    >
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
-                          style={{
-                            borderColor: "black",
-                          }}
-                          onClick={handleUPIPayment}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexRadioDefault1"
-                        >
-                          Payment UPI
-                        </label>
-                      </div>
-                    </li>
-                    <li
-                      className="list-group-item d-flex  align-items-center px-0"
-                      role="presentation"
-                    >
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
-                          style={{
-                            borderColor: "black",
-                          }}
-                          onClick={handleGooglePay}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexRadioDefault1"
-                        >
-                          Google Pay UPI
-                        </label>
-                      </div>
-                      <br />
-                      {googlePay && (
-                        <div className="row my-4 mx-4">
-                          <input
-                            className="form-control my-4"
-                            type="text"
-                            name="text"
-                            id="text"
-                            style={{
-                              borderColor: "black",
-                              borderRadius: "0 0 0 0",
-                            }}
-                          />
-                          <button
-                            type="submit"
-                            className="btn btn-light my-2"
-                            style={{
-                              borderRadius: "0 0 0 0",
-                              backgroundColor: "#fb641b",
-                              color: "white",
-                            }}
-                          >
-                            CONTINUE
-                          </button>
-                        </div>
-                      )}
-                    </li>
-                    <li
-                      className="list-group-item d-flex justify-content-between align-items-center px-0"
-                      role="presentation"
-                    >
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
-                          style={{
-                            borderColor: "black",
-                          }}
-                          onClick={handleCashOnDelivery}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexRadioDefault1"
-                        >
-                          Cash on Delivery
-                        </label>
-                      </div>
-                      <br />
-                      {cashOnDelivery && (
-                        <div className="row" style={{display:"block"}}>
-                          <input
-                            className="form-control my-4 text-center"
-                            type="text"
-                            name="text"
-                            id="text"
-                            value={captcha.replace("undefined", "")}
-                            style={{
-                              borderColor: "white",
-                              borderRadius: "0 0 0 0",
-                              backgroundColor: "white",
-                              color: "green",
-                              fontWeight: "bold",
-                              fontSize:"25px"
-                            }}
-                            disabled
-                          />
-                          <input
-                            className="form-control my-4"
-                            placeholder="Enter above captcha code"
-                            type="text"
-                            name="text"
-                            id="text"
-                            style={{
-                              borderColor: "black",
-                              borderRadius: "0 0 0 0",
-                            }}
-                            onChange={(e) => handleCaptcha(e.target.value)}
-                            required="true"
-                          />
-                          <Link
-                            to="/ordersummary"
-                            type="submit"
-                            className="btn btn-light my-2"
-                            style={{
-                              borderRadius: "0 0 0 0",
-                              backgroundColor: "#fb641b",
-                              color: "white",
-                            }}
-                            onClick={handleCashOnDeliveryContinue}
-                          >
-                            CONTINUE
-                          </Link>
-                        </div>
-                      )}
-                    </li>
-                    <li
-                      className="list-group-item d-flex justify-content-between align-items-center px-0"
-                      role="presentation"
-                    >
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
-                          style={{
-                            borderColor: "black",
-                          }}
-                          onClick={handleDebitCreditCard}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexRadioDefault1"
-                        >
-                          Credit / Debit / ATM Card
-                        </label>
-                      </div>
-                    </li>
-                  </ul>
-                  <hr />
+              </>
+            )}
+            {step4 && (
+              <>
+               <div
+                  style={{
+                    backgroundColor: "#0d6efd",
+                    height: "50px",
+                    marginLeft: "16px",
+                    marginRight: "17px",
+                    color: "#fff",
+                    fontWeight: 700,
+                  }}
+                >
+                  <PiNumberSquareFour
+                    style={{
+                      color: "#0d6efd",
+                      width: "30px",
+                      height: "30px",
+                      backgroundColor: "#fff",
+                      marginLeft: "30px",
+                      marginTop: "10px",
+                    }}
+                  />
+                  <span style={{ marginLeft: "30px", marginTop: "15px" }}>
+                    PAYMENT OPTIONS
+                  </span>
                 </div>
-              )}
-            </div>
+                <div                
+                style={{
+                  backgroundColor: "#fff",
+                  marginLeft: "16px",
+                  marginRight: "17px",
+                }}
+              >
+                <ul
+                  className="list-group list-group-flush"
+                  id="ex1"
+                  role="tablist"
+                  style={{marginLeft:"30px"}}
+                >
+                  <li
+                    className="list-group-item d-flex  align-items-center px-0"
+                    role="presentation"
+                  >
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault1"
+                        style={{
+                          borderColor: "black",
+                        }}
+                        onClick={handleUPIPayment}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexRadioDefault1"
+                      >
+                        Payment UPI
+                      </label>
+                    </div>
+                  </li>
+                  <li
+                    className="list-group-item d-flex  align-items-center px-0"
+                    role="presentation"
+                  >
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault1"
+                        style={{
+                          borderColor: "black",
+                        }}
+                        onClick={handleGooglePay}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexRadioDefault1"
+                      >
+                        Google Pay UPI
+                      </label>
+                    </div>
+                    <br />
+                    {googlePay && (
+                      <div className="row my-4 mx-4">
+                        <input
+                          className="form-control my-4"
+                          type="text"
+                          name="text"
+                          id="text"
+                          style={{
+                            borderColor: "black",
+                            borderRadius: "0 0 0 0",
+                          }}
+                        />
+                        <button
+                          type="submit"
+                          className="btn btn-light my-2"
+                          style={{
+                            borderRadius: "0 0 0 0",
+                            backgroundColor: "#fb641b",
+                            color: "white",
+                          }}
+                        >
+                          CONTINUE
+                        </button>
+                      </div>
+                    )}
+                  </li>
+                  <li
+                    className="list-group-item d-flex justify-content-between align-items-center px-0"
+                    role="presentation"
+                  >
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault1"
+                        style={{
+                          borderColor: "black",
+                        }}
+                        onClick={handleCashOnDelivery}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexRadioDefault1"
+                      >
+                        Cash on Delivery
+                      </label>
+                    </div>
+                    <br />
+                    {cashOnDelivery && (
+                      <div className="row" style={{ display: "block" }}>
+                        <input
+                          className="form-control my-4 text-center"
+                          type="text"
+                          name="text"
+                          id="text"
+                          value={captcha.replace("undefined", "")}
+                          style={{
+                            borderColor: "white",
+                            borderRadius: "0 0 0 0",
+                            backgroundColor: "white",
+                            color: "green",
+                            fontWeight: "bold",
+                            fontSize: "25px",
+                            marginLeft:"-30px"
+                          }}
+                          disabled
+                        />
+                        <input
+                          className="form-control my-4"
+                          placeholder="Enter above captcha code"
+                          type="text"
+                          name="text"
+                          id="text"
+                          style={{
+                            borderColor: "black",
+                            borderRadius: "0 0 0 0",
+                            marginLeft:"-30px"
+                          }}
+                          onChange={(e) => handleCaptcha(e.target.value)}
+                          required="true"
+                        />
+                        <Link
+                          to="/ordersummary"
+                          type="submit"
+                          className="btn btn-light my-2"
+                          style={{
+                            borderRadius: "0 0 0 0",
+                            backgroundColor: "#fb641b",
+                            color: "white",
+                            marginLeft:"-30px"
+                          }}
+                          onClick={handleCashOnDeliveryContinue}
+                        >
+                          CONTINUE
+                        </Link>
+                      </div>
+                    )}
+                  </li>
+                  <li
+                    className="list-group-item d-flex justify-content-between align-items-center px-0"
+                    role="presentation"
+                  >
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault1"
+                        style={{
+                          borderColor: "black",
+                        }}
+                        onClick={handleDebitCreditCard}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexRadioDefault1"
+                      >
+                        Credit / Debit / ATM Card
+                      </label>
+                    </div>
+                  </li>
+                </ul>
+                <hr />
+              </div>
+              </>
+              
+            )}
           </div>
-          <div className="col-lg-4 my-1" style={{paddingRight:"28px"}}>
-            <div className="card" style={{ boxShadow: "0 2px 4px 0 rgba(0,0,0,.08)",paddingLeft:"7px",border:"none", borderRadius:"1px" }}>
+          <div className="col-lg-4 my-1" style={{ paddingRight: "28px" }}>
+            <div
+              className="card"
+              style={{
+                boxShadow: "0 2px 4px 0 rgba(0,0,0,.08)",
+                paddingLeft: "7px",
+                border: "none",
+                borderRadius: "1px",
+              }}
+            >
               <div className="card-body">
                 <h5 className="card-title">PRICE DETAILS</h5>
                 <ul className="list-group list-group-flush">

@@ -16,7 +16,7 @@ export default function LoginToolTip() {
     ) {
       navigate("/signin");
     } else {
-      navigate("profile");
+      navigate("account");
     }
   };
 

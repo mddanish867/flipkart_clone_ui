@@ -18,7 +18,7 @@ export default function Navbar() {
   return (
     <div>
       {/* <!-- Navbar --> */}
-      <nav className="navbar navbar-expand-lg" id="navbar1" >
+      <nav className="navbar navbar-expand-lg" id="navbar1" style={{marginTop:"-15px",height:"40px",borderBottom:"1px solid lightgray"}}>
         {/* <!-- Container wrapper --> */}
         <div className="container-fluid">
           {/* <!-- Navbar brand --> */}
