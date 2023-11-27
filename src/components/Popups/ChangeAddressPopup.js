@@ -14,9 +14,9 @@ const ChangeAddressPopup = ({closeModel}) => {
     return (
       <>
       
-      <div className="modal-dialog modal-container">
+      <div className="modal-dialog modal-container" style={{backgroundColor:"#7e7979",marginTop:"-118px",opacity:"0.9"}}>
       <div className="modal-content">        
-        <div className="modal-body" >
+        <div className="modal-body" style={{marginTop:"35px"}}>
         <button
             type="button"
             onClick={closeModel}
@@ -36,7 +36,8 @@ const ChangeAddressPopup = ({closeModel}) => {
                         className="form-check-input"
                         type="radio"
                         name="inlineRadioOptions"
-                        id="femaleGender"                                               
+                        id="femaleGender" 
+                        style={{borderColor:"gray"}}                                              
                       />
                       <label
                         className="form-check-label"
@@ -54,7 +55,7 @@ const ChangeAddressPopup = ({closeModel}) => {
                       type="text"
                       id="form3Example97"
                       className="form-control form-control-lg"
-                      style={{borderLeft:0,borderRight:0,borderTop:0,borderRadius:"0 0 0 0"}}
+                      style={{borderLeft:0,borderRight:0,borderTop:0,borderRadius:"0 0 0 0",borderColor:"gray"}}
                     />
                   </div>
 

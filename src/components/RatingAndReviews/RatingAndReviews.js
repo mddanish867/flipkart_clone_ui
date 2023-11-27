@@ -20,6 +20,7 @@ export default function RatingAndReviews() {
   let params = useParams();
   let [startrating , setstartrating] = useState(0);
   let productId= 0;
+  let orderStatus = "";
   useEffect(() => {
     getOrderData();
   }, []);
@@ -27,11 +28,12 @@ export default function RatingAndReviews() {
   // Retrieve Order details based on  username
   const getOrderData = async () => {
     const response = await axios.get(
-      `https://localhost:7274/api/Order/RetrieveOrderDetails/orders?OrderTrackId=${params.orderTrackId}`
+      //`https://localhost:7274/api/Order/RetrieveOrderDetails/orders?productId=${params.productId}`
+      `https://localhost:7274/api/Products/PurchasedProductRatings/productId/${params.productId}/rating-reviews`
     );
-    for (let i = 0; i < response.data.result.length; i++) {
-      setproductImageUrl(response.data.result[i].productImageUrl);
-    }
+    // for (let i = 0; i < response.data.result.length; i++) {
+    //   setproductImageUrl(response.data.result[i].productImageUrl);
+    // }
     setOrders(response.data.result);
   };
 
@@ -137,6 +139,7 @@ export default function RatingAndReviews() {
                         </div>
                         {getOrders.map((data) => {
                           productId = data.productId;
+                          orderStatus= data.status
                           return (
                             <Link
                               style={{ textDecoration: "none" }}
@@ -176,9 +179,9 @@ export default function RatingAndReviews() {
                                 >
                                   <div className="bg-image hover-zoom ripple rounded ripple-surface">
                                     <img
-                                      src={data.productImageurl}
+                                      src={data.productImageUrl}
                                       className="w-100"
-                                      alt=""
+                                      alt="Image Url Not found"
                                       style={{ height: "50px" }}
                                     />
                                   </div>
@@ -220,14 +223,14 @@ export default function RatingAndReviews() {
               </span>
               <hr />
               <p style={{ fontSize: "18px" }}>How to review a product?</p>
-              <spna style={{ fontSize: "14px" }}>
+              <span style={{ fontSize: "14px" }}>
                 Your review should include facts. An honest <br />
                 opinion is always appreciated. If you have an <br />
                 issue with the product or service please contact <br />
                 us from the help centre.
-              </spna>
+              </span>
             </div>
-
+            
             <div
               className="col-9"
               style={{

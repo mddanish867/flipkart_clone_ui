@@ -4,8 +4,9 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./Cart.css";
-import { BiPlus } from "react-icons/bi";
-import { FiMinus } from "react-icons/fi";
+import { MdDelete } from "react-icons/md";
+
+
 
 export default function WishList() {
   const [getProductId, setProductId] = useState([]);
@@ -161,23 +162,28 @@ export default function WishList() {
 
           <main className="col-md-9 my-3">
             <section className="bg-light border-top">
+              {getProductId ?
               <div className="container">
                 <div className="row gx-4" style={{ backgroundColor: "white" }}>
                   <div className="col-lg-12 mb-4">
-                    <div className="">
+                    <div>
+                    <div className="my-4">
+                                      <h5>My Wishlist (1)</h5>
+                                      </div>
                       {getProductId.map((data) => {
-                        return (
+                        return (                          
                           <div className="col-12 pull-left">
                             <div className="row justify-content-center mb-3">
-                              <div className="card shadow-4 mx-1">
+                              <div className="card shadow-4 mx-1" style={{borderBottom:"none",borderLeft:"none",borderRight:"none"}}>
                                 <div className="card-body" key={data.productId}>
                                   <div className="row">
-                                    <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                                    <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0" style={{width:"140px"}}>
                                       <div className="bg-image hover-zoom ripple rounded ripple-surface">
                                         <img
                                           src={data.productImageurl}
                                           className="w-100"
-                                          alt=""
+                                          alt="No image found"
+                                          style={{height:"100px"}}
                                         />
                                         <Link>
                                           <div className="hover-overlay">
@@ -188,40 +194,31 @@ export default function WishList() {
                                           </div>
                                         </Link>
                                       </div>
-                                    </div>
+                                    </div>                                    
                                     <div className="col-md-6 col-lg-6 col-xl-6">
-                                      <h5>{data.productName}</h5>
-                                      <div className="d-flex flex-row">
-                                        <b>Size: </b> <span> {data.size} </span>
-                                      </div>
-                                      <div className="d-flex flex-row">
-                                        <b>Color:</b>{" "}
-                                        <span> {data.color} </span>
-                                      </div>
-                                      <div className="d-flex flex-row">
-                                        <b>Brand:</b>{" "}
-                                        <span> {data.brands} </span>
-                                      </div>
+                                      <p style={{fontWeight:500}}>{data.productName}</p>                                     
                                       <div className="d-flex flex-row align-items-center mb-1">
                                         <h4 className="mb-1 me-1">
-                                          &#8377; {data.productDiscount}
+                                          &#8377;{data.productDiscount}
                                         </h4>
-                                        <span className="text-danger">
-                                          <s>&#8377; {data.productPrice}</s>
+                                        <span className="text-muted">
+                                          <s>&#8377;{data.productPrice}</s>
+                                        </span>
+                                        <span className="text-success mx-2">
+                                          &#8377;{Math.round(100-(data.productDiscount)/(data.productPrice)*100)} % off
                                         </span>
                                       </div>
                                     </div>
-                                    <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+                                    <div className="col-md-6 col-lg-3 col-xl-3">
                                       <div className="d-flex flex-column mt-4 my-5">
                                         <button
-                                          className="btn btn-outline-primary btn-sm mt-2"
-                                          id="btnProductcartRemove"
                                           type="button"
+                                          style={{border:"none",backgroundColor:"#fff"}}
                                           onClick={(e) =>
-                                            handleRemoveFromCart(data.productId)
+                                            handleRemoveFromCart()
                                           }
                                         >
-                                          Remove
+                                          <MdDelete style={{color:"rgb(186 188 191)",height:"25px",marginLeft:"176px"}}/>
                                         </button>
                                       </div>
                                     </div>
@@ -236,6 +233,21 @@ export default function WishList() {
                   </div>
                 </div>
               </div>
+              :
+              <div>
+<div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0" style={{width:"140px"}}>
+              <div className="bg-image hover-zoom ripple rounded ripple-surface">
+                <img
+                  src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/mywishlist-empty_39f7a5.png"
+                  className="w-100"
+                  alt="No image found"
+                  style={{height:"100px"}}
+                />                
+              </div>
+            </div> 
+              </div>
+              
+              }
             </section>
           </main>
         </div>

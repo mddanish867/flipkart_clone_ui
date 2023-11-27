@@ -25,19 +25,22 @@
     align-items: center;
     background-color: white;
     border-radius: 3px;
+    width: 400px;
+    margin-left: -50px;
 }
 
 .header__second>input {
     border: none;
     outline: none;
     width: 36vw;
-    padding: 10px 15 px;
+    padding: 10px 15px;
     border-radius: 2px;
-    height: 38px;
+    height: 36px;
+    font-size: 14px;
 }
 .header__second>input>::placeholder {
   
-    margin-left: 10px ;
+    margin-left: 15px ;
    
 }
 
@@ -47,6 +50,8 @@
     font-size: 25px;
     cursor: pointer;
     margin-left: -40px;
+    height: 28px;
+    width: 30px;
 }
 
 .header__third>button {

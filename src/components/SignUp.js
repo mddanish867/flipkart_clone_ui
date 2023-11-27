@@ -98,6 +98,7 @@ export default function SignUp(props) {
                   boxShadow: "0 2px 4px 0 rgba(0,0,0,.08",
                   borderRadius: "0 0 0 0",
                   marginTop: "-32px",
+                  height:"500px"
                 }}
               >
                 <form className="user">
@@ -221,7 +222,7 @@ export default function SignUp(props) {
                     />
                     <label htmlFor="cpassword" className="text-muted">Enter Confirm Password</label>
                   </div>
-                  <spna
+                  <span
                     style={{
                       color: "#878787",
                       fontSize: "12px",
@@ -238,7 +239,7 @@ export default function SignUp(props) {
                       Privacy Policy
                     </a>
                     .
-                  </spna>
+                  </span>
                   <button
                     type="submit"
                     className="btn btn-primary mb-1 my-2"
@@ -264,10 +265,10 @@ export default function SignUp(props) {
                         border: "none",
                         outline: "none",
                         fontSize: "14px",
-                        marginTop: "230px",
+                        marginTop: "8px",
                       }}
                     >
-                      <Link to="/signup" style={{ textDecoration: "none" }}>
+                      <Link to="/signin" style={{ textDecoration: "none" }}>
                       Already have account? Sign in
                       </Link>
                     </p>

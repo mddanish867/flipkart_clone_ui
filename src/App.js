@@ -35,6 +35,8 @@ import OrderResponse from "./components/OrderResponse";
 import OrderDetails from "./components/OrderDetails";
 import RatingAndReviews from "./components/RatingAndReviews/RatingAndReviews";
 import Account from "./components/Account/Account";
+import ProductReview from "./components/RatingAndReviews/ProductReview";
+import ProductQuestions from "./components/RatingAndReviews/ProductQuestions";
 
 function App() {
   return (
@@ -71,7 +73,9 @@ function App() {
           <Route exact path="/productsummary" element={<ProductSummary />} />
           <Route exact path="/orderresponse" element={<OrderResponse />} />
           <Route exact path="/orderdetails/:orderTrackId" Component={OrderDetails} />
-          <Route exact path="/ratingandreviews/:orderTrackId" Component={RatingAndReviews} />
+          <Route exact path="/ratingandreviews/:productId" Component={RatingAndReviews} />
+          <Route exact path="/productreview/:productId" Component={ProductReview} />
+          <Route exact path="/productquestions/:productId" Component={ProductQuestions} />
           <Route exact path="/account" element={<Account />} />
 
         </Routes>

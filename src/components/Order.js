@@ -358,7 +358,7 @@ export default function Order() {
         ProductId: orderProductId,
         username: userEmail,
         ShippingCharge: "Free",
-        Count: orderCount,
+        Count: count,
         Address: orderAddress,
         Mobile: orderMobile,
         TotalAmount: orderProductDiscount,
@@ -478,7 +478,7 @@ export default function Order() {
                   </span>
                 </div>
                 <div
-                  className="tab-content my-2"
+                  className="tab-content"
                   id="ex1-content"
                   style={{
                     backgroundColor: "#fff",
@@ -489,9 +489,8 @@ export default function Order() {
                 >
                   <div className="">
                     <p className="mx-4 my-4">
-                      Name:{" "}
-                      <b>
-                        {" "}
+                      Name:
+                      <b>                        
                         {userInfo.firstName} {userInfo.lastName}{" "}
                       </b>
                     </p>
@@ -511,16 +510,18 @@ export default function Order() {
                       type="button"
                       style={{
                         borderRadius: "0 0 0 0",
-                        width: "365px",
+                        width: "320px",
                         backgroundColor: "#fb641b",
                         color: "white",
+                        marginLeft:"23px",
+                        height:"50px"
                       }}
                       className="btn btn-light btn-block mb-4 my-4"
                       onClick={handleContinueCheckOut}
                     >
                       CONTINUE CHECKOUT
                     </button>
-                    <p>
+                    <p className="text-muted" style={{marginLeft:"23px",fontSize:"14px"}}>
                       Please note that upon clicking "Logout" you will lose all
                       items in cart and will be redirected to eCom home page
                     </p>
@@ -817,11 +818,13 @@ export default function Order() {
                       type="button"
                       style={{
                         borderRadius: "0 0 0 0",
-                        width: "365px",
+                        width: "217px",
+                        height:"50px",
                         backgroundColor: "#fb641b",
                         color: "white",
+                        marginTop:'-30px'
                       }}
-                      className="btn btn-light btn-block mb-4 my-4"
+                      className="btn btn-light btn-block mb-4"
                       onClick={handleDeliverHere}
                     >
                       DELIVER HERE
@@ -1025,25 +1028,27 @@ export default function Order() {
                               </div>
                             );
                           })}
-                          <div className="row">
-                            <div className=" col-lg-4 mb-3 ">
-                              <button
+                          <div className="row" style={{display:"flex"}}> 
+                          <div>
+                          <p> Order confirmation email will be sent on <b> {userEmail}</b></p>                       
+
+                            </div> 
+                            <div>
+                            <button
                                 className="btn btn-light mx-1"
                                 onClick={handleSummaruContinue}
                                 style={{
-                                  width: "763px",
+                                  width: "200px",
                                   borderRadius: "0 0 0 0",
                                   backgroundColor: "#fb641b",
                                   color: "white",
+                                  height:"50px"
                                 }}
                               >
                                 CONTINUE
-                              </button>
+                              </button>   
                             </div>
-                            <p>
-                              Order confirmation email will be sent on{" "}
-                              <b> {userEmail}</b>
-                            </p>
+                                                       
                           </div>
                         </div>
                       </div>

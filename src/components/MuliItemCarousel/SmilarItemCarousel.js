@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,20 +6,17 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { BsHeart } from "react-icons/bs";
 import { LiaSearchSolid } from "react-icons/lia";
-import TopTrending from "./TopTrending";
 import { FaAngleRight } from "react-icons/fa";
-import "./Mens.css";
 
-export default function MultiItemCarousel() {
-  const [productdata, setProductData] = useState([]);
-  let [username, setUsername] = useState("");
+export default function SmilarItemCarousel({sub}) {
+    const [productdata, setProductData] = useState([]);
 
-  let productId = 0;
+  let navigate = useNavigate();
 
   useEffect(() => {
     const getproductData = async () => {
       const response = await axios.get(
-        "https://localhost:7274/api/Products/RetrieveProductList/products?Category=Mens%20Wear"
+        `https://localhost:7274/api/Products/RetrieveProductList/products?Category=${sub}`
       );
       for (let i = 0; i < response.data.result; i++) {
         if (response.data.result === 5) {
@@ -29,7 +26,7 @@ export default function MultiItemCarousel() {
       setProductData(response.data.result);
     };
     getproductData();
-    setUsername(localStorage.getItem("email"));
+    // setUsername(localStorage.getItem("email"));
   }, []);
 
   const responsive = {
@@ -52,12 +49,9 @@ export default function MultiItemCarousel() {
     },
   };
 
-  const RefreshComponent = () =>{
-    window.open(`http://localhost:3000/productdetails/${productId}`);
-  }
-  const product = productdata.map((data) => (   
+  const product = productdata.map((data) => (
     <div className="container" key={data.productId}>
-      <Link to={`/productdetails/${data.productId}`} id="productLink" target="_blank">
+      <Link to={`/productdetails/${data.productId}`} id="productLink">
         <div
           className="card bg-body rounded"
           style={{ border: "none", width: "180px", height: "190px" }}
@@ -86,6 +80,7 @@ export default function MultiItemCarousel() {
       </Link>
     </div>
   ));
+
   return (
     <div
       style={{
@@ -97,7 +92,7 @@ export default function MultiItemCarousel() {
         marginRight: "16px",
       }}
     >
-      <h4 style={{ marginLeft: "16px" }}> Fashion Top Deals</h4>
+      <h4 style={{ marginLeft: "16px" }}> Similar Items #</h4>
       <button
         style={{
           backgroundColor: "#0d6efd",
@@ -110,5 +105,5 @@ export default function MultiItemCarousel() {
       </button>
       <Carousel responsive={responsive}>{product}</Carousel>;
     </div>
-  );
+  )
 }

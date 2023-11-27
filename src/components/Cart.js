@@ -29,16 +29,7 @@ export default function Cart() {
     getproductData();
     setUsername(localStorage.getItem("email"));    
   }, []);
-
-  const myModel = () =>{
-    return(
-      <>
-      <p>Change address to delover the <br/>
-        the product
-      </p>
-      </>
-    )
-  }
+  
 
   const getproductData = async () => {
     const response = await axios.get(
@@ -123,7 +114,7 @@ export default function Cart() {
                 boxSizing:"border-box"
               }}
             >
-              <p>
+              <p style={{marginTop:"23px"}}>
                 Deliver to: <b>Azamgarh - 276129</b>
               </p>
               <button
@@ -135,7 +126,8 @@ export default function Cart() {
                   padding: "inherit",
                   backgroundColor: "#fff",
                   border: "none",
-                  color: "blue",
+                  color: "#0d6efd",
+                  fontWeight:500
                 }}
                 onClick={() => setShowwModel(true)}
               >
@@ -143,7 +135,9 @@ export default function Cart() {
               </button>              
             </div>
             {showModel && <ChangeAddressPopup closeModel = {closeModel}/>}
-            <div className="row gx-4">
+            {showModel === true ? "" :
+            (
+<div className="row gx-4">
               <div className="col-lg-9 mb-4" style={{ marginLeft: "-15px" }}>
                 <div className=" px-3 py-2 ">
                   {getProductId.map((data) => {
@@ -301,7 +295,7 @@ export default function Cart() {
                   marginLeft: "-10px",
                 }}
               >
-                <div className="card" style={{ border: "none" }}>
+                <div className="card" style={{ border: "none",marginTop:"-100px" }}>
                   <div className="card-body">
                     <h5 className="card-title">PRICE DETAILS</h5>
                     <ul className="list-group list-group-flush">
@@ -362,6 +356,9 @@ export default function Cart() {
                 </div>
               </div>
             </div>
+            )
+          }
+            
           </section>
         ) : (
           <div className="py-1 col-md-12 mx-1 ">

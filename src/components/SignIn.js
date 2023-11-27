@@ -139,7 +139,7 @@ export default function SignIn() {
                     />
                     <label htmlFor="floatingPassword" className="text-muted">Enter Password</label>
                   </div>
-                  <spna
+                  <span
                     style={{
                       color: "#878787",
                       fontSize: "12px",
@@ -156,7 +156,7 @@ export default function SignIn() {
                       Privacy Policy
                     </a>
                     .
-                  </spna>
+                  </span>
                   <button
                     type="submit"
                     className="btn btn-primary mb-1 my-2"

@@ -2,38 +2,99 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { BiSolidBolt,BiSolidPurchaseTag } from "react-icons/bi";
+import {
+  BiSolidBolt,
+  BiSolidPurchaseTag,
+  BiPlus,
+  BiMinus,
+} from "react-icons/bi";
 import { FaShoppingCart } from "react-icons/fa";
+import { AiFillStar } from "react-icons/ai";
 import { MdLocationPin } from "react-icons/md";
+import { HiOutlineEmojiHappy } from "react-icons/hi";
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { FaAngleRight } from "react-icons/fa6";
 import "./ProductDetails.css";
 import MultiItemCarousel from "./MultiItemCarousel";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+import SmilarItemCarousel from "./MuliItemCarousel/SmilarItemCarousel";
 
 export default function ProductDetails() {
   let params = useParams();
   let navigate = useNavigate();
   const [getProductId, setProductId] = useState([]);
   let [ProductImage, setProductimage] = useState([]);
-  const [userName, setUserName] = useState(""); 
+  const [userName, setUserName] = useState("");
   let [stockCount, setstockCount] = useState(0);
   const [recommendation, setRecommendation] = useState([]);
   let sub = "";
-  const [existingProductId, setExistingProductId] =useState(0);
+  const [existingProductId, setExistingProductId] = useState(0);
   const [orderAddress, setorderAddress] = useState("");
   let [displayNewAddress, setDisplayNewAddress] = useState("");
+  const [showProductDetails, setshowProductDetails] = useState(false);
+  const [totalRatings, setTotalRatings] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
+  const [averageRating, setAverageRating] = useState(0);
+  const [ratingDetails, setRatingDetails] = useState([]);
+  const [visible, setvisible] = useState(3);
+  const [getProductQuestionair, setProductQuestionair] = useState([]);
+  const [visibleTop3Question, setvisibleTop3Question] = useState(3);
 
+  let sumOfAllRating = 0;
+  let totalRatingCount = 0;
+  let totalReviewCount = 0;
+  let averageratingCount = 0;
 
-  useEffect(() => {   
+  useEffect(() => {
     setUserName(localStorage.getItem("email"));
     getproductData();
     getproductimage();
     checkExistingProduct();
     getDeliveryAddress();
+    getRatingReviews();
+    getRatingReviewDetails();
+    getProeductQuestionair();
   }, []);
+
+  // method to get all product question and answers for perticular product
+  const getProeductQuestionair = async () => {
+    const response = await axios.get(
+      `https://localhost:7274/api/Products/ProductQuestionair/product-id/${params.productId}/product-questionair-details`
+    );
+    setProductQuestionair(response.data.result);
+  };
+
+  // method to get all product rating ang and review details
+  const getRatingReviewDetails = async () => {
+    const response = await axios.get(
+      `https://localhost:7274/api/Products/ProductRatingDetails/product-id/${params.productId}/rating-reviews-details`
+    );
+    setRatingDetails(response.data.result);
+  };
+
+  // method to get all product rating and reviews for perticular product
+  const getRatingReviews = async () => {
+    const response = await axios.get(
+      `https://localhost:7274/api/Products/ProductRatings/product-id/${params.productId}/rating-reviews`
+    );
+    for (let i = 0; i < response.data.result.length; i++) {
+      sumOfAllRating = sumOfAllRating + response.data.result[i].rating;
+      totalRatingCount = response.data.result.length;
+      totalReviewCount = response.data.result.length;
+      averageratingCount = (
+        sumOfAllRating / response.data.result.length
+      ).toFixed(1);
+    }
+    setTotalRatings(totalRatingCount);
+    setTotalReviews(totalReviewCount);
+    setAverageRating(averageratingCount);
+  };
 
   const getDeliveryAddress = async () => {
     const response = await axios.get(
-      `https://localhost:7274/api/Account/RetrieveDeliveryAddress/user_name/${localStorage.getItem("email")}/delivery_address`
+      `https://localhost:7274/api/Account/RetrieveDeliveryAddress/user_name/${localStorage.getItem(
+        "email"
+      )}/delivery_address`
     );
     setDisplayNewAddress(response.data.result[0]);
     setorderAddress(
@@ -75,7 +136,7 @@ export default function ProductDetails() {
   const checkExistingProduct = async () => {
     const response = await axios.get(
       `https://localhost:7274/api/Cart/RetrieveCartDetails/cart?ProductId=${params.productId}`
-    );   
+    );
     setExistingProductId(response.data.result[0].productId);
   };
 
@@ -93,12 +154,12 @@ export default function ProductDetails() {
   // Method to add the products ino cart
   const handleAddToCart = () => {
     let flag = false;
-      if (existingProductId.toString() === params.productId) {
-        flag = true;        
-      }
-    
+    if (existingProductId.toString() === params.productId) {
+      flag = true;
+    }
+
     if (flag === false) {
-      const data = {       
+      const data = {
         ProductId: params.productId,
         UserName: userName,
         errormessage: "",
@@ -108,12 +169,12 @@ export default function ProductDetails() {
         .post(url, data)
         .then((result) => {
           Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: (result.data.message),
+            position: "center",
+            icon: "success",
+            title: result.data.message,
             showConfirmButton: false,
-            timer: 1500
-          })
+            timer: 1500,
+          });
           if (result.data.message === "OK") {
             window.location.reload();
             navigate("/cart");
@@ -121,11 +182,11 @@ export default function ProductDetails() {
         })
         .catch((error) => {
           Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong!',
-            footer: {error}
-          })
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: { error },
+          });
         });
     }
   };
@@ -152,14 +213,38 @@ export default function ProductDetails() {
     }
   };
 
+  function showDetails() {
+    if (showProductDetails === false) {
+      setshowProductDetails(true);
+    } else {
+      setshowProductDetails(false);
+    }
+  }
+
+  const handleRateProduct = () => {
+    if (
+      localStorage.getItem("email") === "" ||
+      localStorage.getItem("email") === undefined ||
+      localStorage.getItem("email") === null
+    ) {
+      navigate("/signin");
+    } else {
+      navigate("ratingandreviews");
+    }
+  };
+
   return (
     <>
       <div>
-        
-
         <div className="row">
-          <div className="col-2" style={{marginTop:"0",backgroundColor:"#fff"}}>
-            <div className="container">
+          <div
+            className="col-2"
+            style={{ marginTop: "0", backgroundColor: "#fff" }}
+          >
+            <div
+              className="container"
+              style={{ marginLeft: "-45px", marginTop: "4px" }}
+            >
               {ProductImage.map((data) => {
                 return (
                   <div className="row imgRowDetails">
@@ -177,7 +262,7 @@ export default function ProductDetails() {
                             height="60"
                             className="rounded-2"
                             src={data.imageUrl}
-                            alt=""
+                            alt="No image found"
                           />
                         </a>
                       </div>
@@ -188,16 +273,28 @@ export default function ProductDetails() {
             </div>
           </div>
           {getProductId.map((data) => {
-         
             return (
-              <div className="col-10" style={{backgroundColor:"#fff"}}>
-                <section className="py-5">
+              <div className="col-10" style={{ backgroundColor: "#fff" }}>
+                <section className="py-5" style={{ marginLeft: "-40px" }}>
                   <div className="container">
                     <div className="row">
-                      <aside className="col-lg-4 my-1" style={{marginLeft:"-96px",width:"440px",height:"550px",marginTop:"-54px"}}>
+                      <aside
+                        className="col-lg-4 my-1"
+                        style={{
+                          marginLeft: "-96px",
+                          width: "440px",
+                          height: "550px",
+                          marginTop: "-54px",
+                        }}
+                      >
                         <div
                           className="border mb-3 d-flex justify-content-center"
-                          style={{ borderRadius: "0 0 0 0",marginTop:"-43px",height:"400px",width:"408px" }}
+                          style={{
+                            borderRadius: "0 0 0 0",
+                            marginTop: "-43px",
+                            height: "400px",
+                            width: "408px",
+                          }}
                         >
                           <Link
                             data-fslightbox="mygalley"
@@ -211,7 +308,7 @@ export default function ProductDetails() {
                               id="productdetails1"
                               src={data.productImageurl}
                               alt=""
-                              style={{height:"400px"}}
+                              style={{ height: "400px" }}
                             />
                           </Link>
                         </div>
@@ -222,7 +319,7 @@ export default function ProductDetails() {
                             display: "flex",
                             marginLeft: "-128px",
                             justifyContent: "center",
-                            marginTop:"-54px"
+                            marginTop: "-54px",
                           }}
                         >
                           <Link
@@ -267,26 +364,14 @@ export default function ProductDetails() {
                         {/* <!-- thumbs-wrap.// --> */}
                         {/* <!-- gallery-wrap .end// --> */}
                       </aside>
-                      <main className="col-lg-8" style={{marginLeft:"-26px"}}>
+                      <main
+                        className="col-lg-8"
+                        style={{ marginLeft: "-26px" }}
+                      >
                         <div className="ps-lg-3">
                           <h6 className="title text-dark">
                             {data.productName}
                           </h6>
-                          <div className="d-flex flex-row my-3">
-                            <div className="text-warning mb-1 me-2">
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                              <i className="fa fa-star"></i>
-                              <i className="fas fa-star-half-alt"></i>
-                              <span className="ms-1">rating {data.rating}</span>
-                            </div>
-                            <span className="text-muted">
-                              <i className="fas fa-shopping-basket fa-sm mx-1"></i>
-                              {data.productQuanitity}
-                            </span>
-                            <span className="text-success ms-2">In stock</span>
-                          </div>
 
                           <div className="mb-3">
                             <span className="h3">
@@ -305,8 +390,34 @@ export default function ProductDetails() {
                               </b>
                             </span>
                           </div>
-                        
-                          <div className="row">
+                          <div
+                            className="d-flex flex-row my-3"
+                            style={{ marginLeft: "-25px" }}
+                          >
+                            <span
+                              className="badge rounded-pill mx-4"
+                              style={{
+                                width: "65px",
+                                height: "28px",
+                                backgroundColor: "#26a541",
+                                fontSize: "18px",
+                              }}
+                            >
+                              <span>{averageRating}</span>
+
+                              <AiFillStar
+                                style={{
+                                  height: "18px",
+                                  width: "18px",
+                                  marginTop: "-4px",
+                                }}
+                              />
+                            </span>
+                            <span className="text-muted mx-1">
+                              {totalRatings} ratings and {totalReviews} reviews
+                            </span>
+                          </div>
+                          <div className="row" style={{ marginBottom: "5px" }}>
                             <div
                               className="filter-content collapse show"
                               id="collapse_4"
@@ -326,7 +437,7 @@ export default function ProductDetails() {
                                   style={{
                                     borderRadius: "0 0 0 0",
                                     width: "50px",
-                                    border:"2px solid"
+                                    border: "2px solid",
                                   }}
                                 >
                                   XS
@@ -344,7 +455,7 @@ export default function ProductDetails() {
                                   style={{
                                     borderRadius: "0 0 0 0",
                                     width: "50px",
-                                    border:"2px solid"
+                                    border: "2px solid",
                                   }}
                                 >
                                   S
@@ -362,7 +473,7 @@ export default function ProductDetails() {
                                   style={{
                                     borderRadius: "0 0 0 0",
                                     width: "50px",
-                                    border:"2px solid"
+                                    border: "2px solid",
                                   }}
                                 >
                                   L
@@ -380,7 +491,7 @@ export default function ProductDetails() {
                                   style={{
                                     borderRadius: "0 0 0 0",
                                     width: "50px",
-                                    border:"2px solid"
+                                    border: "2px solid",
                                   }}
                                 >
                                   XL
@@ -398,7 +509,7 @@ export default function ProductDetails() {
                                   style={{
                                     borderRadius: "0 0 0 0",
                                     width: "50px",
-                                    border:"2px solid"
+                                    border: "2px solid",
                                   }}
                                 >
                                   XXL
@@ -406,7 +517,7 @@ export default function ProductDetails() {
                               </div>
                             </div>
                           </div>
-                          <div className="row">
+                          <div className="row" style={{ marginBottom: "5px" }}>
                             <div
                               className="filter-content collapse show"
                               id="collapse_4"
@@ -428,9 +539,9 @@ export default function ProductDetails() {
                                       htmlFor={data.imageUrl}
                                       style={{
                                         borderRadius: "0 0 0 0",
-                                        width: "50px",
+                                        width: "40px",
                                         display: "inline-table",
-                                        border:"2px solid blue"
+                                        border: "2px solid blue",
                                       }}
                                     >
                                       <img
@@ -475,9 +586,13 @@ export default function ProductDetails() {
                           </h6>
                           <div
                             className="border"
-                            style={{ height: "55x", padding: "5px" }}
+                            style={{
+                              height: "49px",
+                              padding: "12px",
+                              width: "460px",
+                            }}
                           >
-                            {orderAddress}{" "}
+                            {orderAddress.slice(0, 50)}...
                             <span
                               className="badge badge-secondary"
                               style={{
@@ -488,57 +603,351 @@ export default function ProductDetails() {
                               {displayNewAddress.place}
                             </span>
                           </div>
-                          
-                          <h4 className="my-4">Product Details</h4>
-                          <p className="my-3">{data.productDescription}</p>
+                          <hr />
 
-                          <div className="row">
-                            <dt className="col-3">Type:</dt>
-                            <dd className="col-9">{data.type}</dd>
-
-                            <dt className="col-3">Color:</dt>
-                            <dd className="col-9">{data.color}</dd>
-
-                            <dt className="col-3">Material:</dt>
-                            <dd className="col-9">{data.material}</dd>
-
-                            <dt className="col-3">Brand:</dt>
-                            <dd className="col-9">{data.brands}</dd>
+                          <div style={{ display: "flex" }}>
+                            <h4 className="my-4">Product Details</h4>
+                            {!showProductDetails ? (
+                              <button
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "#fff",
+                                  marginLeft: "474px",
+                                }}
+                                onClick={showDetails}
+                              >
+                                <BiPlus
+                                  style={{
+                                    width: "25px",
+                                    height: "25px",
+                                    color: "gray",
+                                  }}
+                                />
+                              </button>
+                            ) : (
+                              <button
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "#fff",
+                                  marginLeft: "474px",
+                                }}
+                                onClick={showDetails}
+                              >
+                                <BiMinus
+                                  style={{
+                                    width: "25px",
+                                    height: "25px",
+                                    color: "gray",
+                                  }}
+                                />
+                              </button>
+                            )}
                           </div>
+                          {showProductDetails ? (
+                            <div>
+                              <p className="my-3">{data.productDescription}</p>
 
-                          <hr />
-                          <h4>Ratings & Reviews</h4>
+                              <div className="row">
+                                <dt className="col-3">Type:</dt>
+                                <dd className="col-9">{data.type}</dd>
 
+                                <dt className="col-3">Color:</dt>
+                                <dd className="col-9">{data.color}</dd>
+
+                                <dt className="col-3">Material:</dt>
+                                <dd className="col-9">{data.material}</dd>
+
+                                <dt className="col-3">Brand:</dt>
+                                <dd className="col-9">{data.brands}</dd>
+                              </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
                           <hr />
-                          <h4>Question & Answers</h4>
+
+                          <div style={{ display: "flex" }}>
+                            <h4 style={{ marginTop: "11px" }}>
+                              Ratings & Reviews
+                            </h4>
+                            <span
+                              className="badge rounded-pill mx-4"
+                              style={{
+                                width: "65px",
+                                height: "34px",
+                                marginTop: "7px",
+                                paddingTop: "8px",
+                                backgroundColor: "#26a541",
+                                fontSize: "18px",
+                              }}
+                            >
+                              {averageRating}
+                              <AiFillStar
+                                style={{ height: "18px", width: "18px" }}
+                              />
+                            </span>
+                            <span
+                              className="text-muted mx-1"
+                              style={{ marginTop: "11px" }}
+                            >
+                              {totalRatings} ratings and {totalReviews} reviews
+                            </span>
+                            <Link
+                              style={{
+                                backgroundColor: "#2874f0",
+                                color: "#fff",
+                                border: "none",
+                                marginLeft: "52px",
+                                fontWeight: 600,
+                                fontFamily: "Roboto,Arial,sans-serif",
+                                fontSize: "14px",
+                                height: "34px",
+                                width: "114px",
+                                marginTop: "11px",
+                                textDecoration: "none",
+                                textAlign: "center",
+                                paddingTop: "6px",
+                              }}
+                              to={`/ratingandreviews/${data.productId}`}
+                              onClick={handleRateProduct}
+                            >
+                              Rate Product
+                            </Link>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              alignContent: "space-between",
+                              marginTop: "10px",
+                            }}
+                          >
+                            <HiOutlineEmojiHappy
+                              style={{
+                                color: "green",
+                                height: "25px",
+                                width: "25px",
+                              }}
+                            />
+                            <button
+                              className="mx-2"
+                              style={{
+                                border: "none",
+                                backgroundColor: "#fff",
+                                boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)",
+                                outline: "none",
+                                fontSize: "14px",
+                              }}
+                            >
+                              Colour
+                            </button>
+                            <button
+                              className="mx-2"
+                              style={{
+                                border: "none",
+                                backgroundColor: "#fff",
+                                boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)",
+                                outline: "none",
+                                fontSize: "14px",
+                              }}
+                            >
+                              Style
+                            </button>
+                            <button
+                              className="mx-2"
+                              style={{
+                                border: "none",
+                                backgroundColor: "#fff",
+                                boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)",
+                                outline: "none",
+                                fontSize: "14px",
+                              }}
+                            >
+                              Comfort
+                            </button>
+                            <button
+                              className="mx-2"
+                              style={{
+                                border: "none",
+                                backgroundColor: "#fff",
+                                boxShadow: "0 1px 2px 0 rgba(0,0,0,.1)",
+                                outline: "none",
+                                fontSize: "14px",
+                              }}
+                            >
+                              Fabrick
+                            </button>
+                          </div>
+                          <h6 className="my-4">
+                            Images uploaded by customers:
+                          </h6>
+
+                          {ratingDetails.slice(0, visible).map((data) => {
+                            return (
+                              <div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    marginLeft: "-25px",
+                                  }}
+                                >
+                                  {data.rating === 1 ? (
+                                    <span
+                                      className="badge rounded-pill mx-4"
+                                      style={{
+                                        width: "37px",
+                                        height: "19px",
+                                        marginTop: "7px",
+                                        paddingTop: "4px",
+                                        backgroundColor: "#ff6161",
+                                        fontSize: "12px",
+                                      }}
+                                    >
+                                      {data.rating}
+                                      <AiFillStar
+                                        style={{
+                                          height: "12px",
+                                          width: "12px",
+                                          marginTop: "-3px",
+                                        }}
+                                      />
+                                    </span>
+                                  ) : (
+                                    <span
+                                      className="badge rounded-pill mx-4"
+                                      style={{
+                                        width: "37px",
+                                        height: "19px",
+                                        marginTop: "7px",
+                                        paddingTop: "4px",
+                                        backgroundColor: "#26a541",
+                                        fontSize: "12px",
+                                      }}
+                                    >
+                                      {data.rating}
+                                      <AiFillStar
+                                        style={{
+                                          height: "12px",
+                                          width: "12px",
+                                          marginTop: "-3px",
+                                        }}
+                                      />
+                                    </span>
+                                  )}
+
+                                  <p
+                                    style={{
+                                      marginLeft: "-12px",
+                                      marginTop: "5px",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {data.review}
+                                  </p>
+                                </div>
+                                <div style={{ display: "flex" }}>
+                                  <p
+                                    className="mx-2"
+                                    style={{
+                                      fontWeight: "400px",
+                                      color: "gray",
+                                    }}
+                                  >
+                                    {data.customerName}
+                                  </p>
+                                  <p className="mx-2">{data.reviewedAt}</p>
+                                </div>
+                                <div style={{ display: "flex" }}>
+                                  <IoIosCheckmarkCircle
+                                    style={{ color: "gray" }}
+                                  />
+                                  <p
+                                    className="mx-1"
+                                    style={{ marginTop: "-5px", color: "gray" }}
+                                  >
+                                    Certified Buyer, {data.city}
+                                  </p>
+                                </div>
+                                <hr />
+                              </div>
+                            );
+                          })}
+                          {visible === 3 ? (
+                            <Link
+                              to={`/productreview/${data.productId}`}
+                              style={{
+                                textDecoration: "none",
+                                fontWeight: 500,
+                              }}
+                            >
+                              All {totalRatings} reviews <FaAngleRight />
+                            </Link>
+                          ) : (
+                            ""
+                          )}
+
+                          <h4 className="my-4">Question & Answers</h4>
+                          {getProductQuestionair
+                            .slice(0, visibleTop3Question)
+                            .map((data) => {
+                              return (
+                                <div>
+                                  <h6 className="my-4">Q: {data.questions}?</h6>
+                                  <p style={{ marginTop: "-10px" }}>
+                                    A: {data.answers}
+                                  </p>
+                                  <div style={{ display: "flex"}}>
+                                  <IoIosCheckmarkCircle
+                                    style={{ color: "gray" }}
+                                  />
+                                  <p
+                                    className="mx-1"
+                                    style={{ marginTop: "-5px", color: "gray" }}
+                                  >
+                                    Certified Buyer
+                                  </p>
+                                </div>
+                                  <hr />
+                                </div>
+                                
+                              );
+                            })}
+                          <Link
+                            to={`/productquestions/${data.productId}`}
+                            style={{
+                              textDecoration: "none",
+                              fontWeight: 500,
+                            }}
+                          >
+                            All questions <FaAngleRight />
+                          </Link>
                         </div>
                       </main>
-
-                      
                     </div>
                   </div>
                 </section>
               </div>
             );
           })}
-          
-            
         </div>
-        <div >
+        <div>
+          <SmilarItemCarousel sub={sub} />
+        </div>
+        <div>
           {/* <h4 className="mx-4">Frequently bought together</h4> */}
-          <MultiItemCarousel/>
+          <MultiItemCarousel />
         </div>
-        <div >
+        <div>
           {/* <h4 className="mx-4">You might be interested in</h4> */}
-          <MultiItemCarousel/>
+          <MultiItemCarousel />
         </div>
-        <div >
+        <div>
           {/* <h4 className="mx-4"> Bought together</h4> */}
-          <MultiItemCarousel/>
+          <MultiItemCarousel />
         </div>
         <div>
           {/* <h4 className="mx-4">Recently viewed</h4> */}
-          <MultiItemCarousel/>
+          <MultiItemCarousel />
         </div>
 
         <section className="bg-light border-top py-4">

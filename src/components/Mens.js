@@ -8,66 +8,224 @@ import "./Mens.css";
 import Swal from 'sweetalert2';
 import { borderTop } from "@mui/system";
 
+// select * from Products where (ProductDiscount Between 200 and 300) and ( Brands in ('Egolo','Polo') and Size in ('L','M') and Color in('Green','Red') and Sleeve in ('Half Sleeve'))
+
 
 const Mens = () => {
   const [userdata, setData] = useState([]);
   const [productdata, setProductData] = useState([]);
-  const [roductFound, setProductFound] = useState(0);
-  const [toCheck, setToCheck] = useState({});
+  const [mensCategory, setMensCategory] = useState([]);
+  const [roductFound, setProductFound] = useState(0);  
+  const [toCheck, setToCheck] = useState(""); // need to remove
   const [existingProductId, setExistingProductId] =useState(0);
+  const [hideSleevs, setHideSleeves] = useState(false)
+  const [hideColor, setHideColor] = useState(false)
+  const [hideSize, setHideSize] = useState(false);
+  const [hideDiscount, setHideDiscount] = useState(false);
+  const [hideBrand, setHideBrand] = useState(false);
+  const [filterColor, setfilterColor] = useState([]);
+  const [filterBrand, setfilterBrand] = useState([]);
+  const [filterSize, setfilterSize] = useState([]);
+  const [filterDiscount, setfilterDiscount] = useState(0);
+  const [filterSleeve, setfilterSleeve] = useState([]);
+  const [filterMinPrice, setfilterMinPrice] = useState(0);
+  const [filterMaxPrice, setfilterMaxPrice] = useState(0);
+  const [rangeData,setRangeData] = useState(0);
   let [username, setUsername] = useState("");  
   let navigate = useNavigate();
   let subcategory = "";
   let setColorFilter = [];
   let setBrand = [];
   let setSize = [];
+  let setDiscount = [];
+  let setSleeveFilter = [];
+  let setfilterSleeves = [];
   let params = useParams();
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get(
-        "https://localhost:7274/api/Account/RetrieveSubCategoryDetails/subcategories?Category=Mens%20Wear"
-      );
-      setData(response.data.result);
-    };
-    getData();
-
-    const getproductData = async () => {
-      const response = await axios.get(
-        "https://localhost:7274/api/Products/RetrieveProductList/products?Category=Mens%20Wear"
-      );
-      setProductData(response.data.result);
-      setProductFound(response.data.result.length);
-    };
+  useEffect(() => {    
+    getData();    
     getproductData();
     setUsername(localStorage.getItem("email"));
-    checkExistingProduct();
+    // checkExistingProduct();
   }, []);
 
-  const filterProducts = (value) =>
-    setToCheck((prev) => {
-      return { ...prev, [value]: !!!prev[value] };
-    });
+  const getData = async () => {
+    const response = await axios.get(
+      "https://localhost:7274/api/Account/RetrieveSubCategoryDetails/subcategories?Category=Mens%20Wear"
+    );
+    setData(response.data.result);
+  };
 
-  const filterBrandProducts = (value) =>
-    setToCheck((prev) => {
-      return { ...prev, [value]: !!!prev[value] };
-    });
+  const getproductData = async () => {
+    const response = await axios.get("https://localhost:7274/api/Products/RetrieveProductList/products?Category=Mens%20Wear");
+    setProductData(response.data.result);
+    setMensCategory(response.data.result)
+    setProductFound(response.data.result.length);
+  }
 
-  const filterSizeProducts = (value) =>
-    setToCheck((prev) => {
-      return { ...prev, [value]: !!!prev[value] };
-    });
+    const FilterProeducts = async (
+      filterMinPrice,
+      filterMaxPrice,
+      filterDiscount,
+      filterColor,
+      filterBrand,
+      filterSize,
+      filterSleeve
+    ) => {
+      let apiUrl = "https://localhost:7274/api/Products/FilterProducts/filters";
+      if (filterMinPrice && filterMaxPrice) {
+        apiUrl += `?MinPrice=${filterMinPrice}&MaxPrice=${filterMaxPrice}`;
+      }
+      if (filterDiscount) {
+        apiUrl += `?Discount=${filterDiscount}`;
+      }
+      if (filterColor) {
+        apiUrl += `?Color=${filterColor}`;
+      }
+      if (filterBrand) {
+        apiUrl += `?Brand=${filterBrand}`;
+      }
+      if (filterSize) {
+        apiUrl += `?Size=${filterSize}`;
+      }
+      if (filterSleeve) {
+        apiUrl += `?Sleeve=${filterSleeve}`;
+      }
 
+      const response = await axios.get(apiUrl);
+      setMensCategory(response.data.result);
+    };
   
 
+  const filterProductsBasedOnColor = (e) =>{
+    const {value,checked} = e.target;
+    if(checked){
+      setfilterColor([...filterColor,value]);
+    }
+    else{
+      setfilterColor(filterColor.filter((e) => e!== value));
+    }
+    FilterProeducts();
+    console.log(filterColor)
+    };
+
+  const filterBrandProducts = (e) => {
+    const {value,checked} = e.target;
+    if(checked){
+      setfilterBrand([...filterBrand,value]);
+      console.log(filterBrand)
+    }
+    else{
+      setfilterBrand(
+      filterBrand.filter((e) => e !== value)      
+      );    
+      console.log(filterBrand)
+    }
+    FilterProeducts();
+    };
+
+  const filterSizeProducts = (e) =>{
+    const {value,checked} = e.target;
+    if(checked){
+      setfilterSize([...filterSize,value]);
+    }
+    else{
+      setfilterSize(filterSize.filter((e) => e!== value));
+    }
+    FilterProeducts();
+    };
+
+    const filterDiscountProducts = (e) =>{
+      const {value,checked} = e.target;
+    if(checked){
+      setfilterDiscount([...filterDiscount,value]);
+    }
+    else{
+      setfilterDiscount(filterDiscount.filter((e) => e!== value));
+    }
+    FilterProeducts();
+    }
+
+    const filterProductsBasedOnSleeve = (e) => {
+      const {value,checked} = e.target;
+    if(checked){
+      setfilterSleeve([...filterSleeve,value]);
+    }
+    else{
+      setfilterSleeve(filterSleeve.filter((e) => e!== value));
+    }
+    FilterProeducts();
+    }  
+
+    const filterProductBasedonMinPrice = (e) =>{
+      setfilterMinPrice(e.target.value);
+      FilterProeducts();
+    }
+
+    const filterProductBasedonMaxPrice = (e) =>{
+      setfilterMaxPrice(e.target.value);
+      FilterProeducts();
+    }
+    
+
+  // Show / Hide Sleeves button Filter
+  function ShowSleevesFilter(){
+    if(hideSleevs === false){
+      setHideSleeves(true);
+    }
+    else{
+      setHideSleeves(false);
+    }
+  }
+
+  // SHow / Hide Color button filter
+  function ShowColorFilter(){
+    
+    if(hideColor === false){
+      setHideColor(true);
+    }
+    else{
+      setHideColor(false);
+    }
+  }
+
+  // Show / Hide Size button Filter
+  function ShowSizeFilter(){
+    if(hideSize === false){
+      setHideSize(true);
+    }
+    else{
+      setHideSize(false);
+    }
+  }
+
+  // Show / Hide Discont button Filter
+  function ShowDiscountFilter (){
+    if(hideDiscount === false){
+      setHideDiscount(true);
+    }
+    else{
+      setHideDiscount(false);
+    }
+  }
+
+  // Show / Hide Brand button Filter
+  function ShowBrandFilter(){
+    if(hideBrand === false){
+      setHideBrand(true);
+    }
+    else{
+      setHideBrand(false);
+    }
+  }
+
   // method to check if the products is already exists into cart or not
-  const checkExistingProduct = async () => {
-    const response = await axios.get(
-      `https://localhost:7274/api/Cart/RetrieveCartDetails/cart?ProductId=${params.productId}`
-    );   
-    setExistingProductId(response.data.result[0].productId);
-  };
+  // const checkExistingProduct = async () => {
+  //   const response = await axios.get(
+  //     `https://localhost:7274/api/Cart/RetrieveCartDetails/cart?ProductId=${params.productId}`
+  //   );   
+  //   setExistingProductId(response.data.result[0].productId);
+  // };
 
    // Method to add the products ino favourites
    const handleWishList = (productId) => {
@@ -114,8 +272,9 @@ const Mens = () => {
       <section style={{ backgroundColor: "#f1f3f6" }}>
         <div className="row">
           {/* Start Filters the products */}
-          <aside className="col-md-3" style={{ marginLeft: "8px" }}>
-            <div className="card my-3" style={{ borderRadius: "0 0 0 0" }}>
+          <aside className="col-md-3 my-1" style={{ marginLeft: "8px",width:"295px" }}>
+            <div className="card" style={{ borderRadius: "0 0 0 0",marginTop:"4px",border:"none" }}>
+              {/* Start Filter Product by Category */}
               <article className="filter-group">
                 <header
                   className="card-header"
@@ -123,10 +282,12 @@ const Mens = () => {
                 >
                   <i className="icon-control fa fa-chevron-down"></i>
                   <h5 className="title">Filters</h5>
-                </header>             
+                </header>
 
                 <div className="filter-content collapse show" id="collapse_1">
-                  <h6 style={{marginLeft:"18px",marginTop:"10px"}}>Search by Category</h6>
+                  <h6 style={{ marginLeft: "18px", marginTop: "10px" }}>
+                    Search by Category
+                  </h6>
                   <div className="card-body">
                     <form className="pb-3">
                       <div className="input-group">
@@ -279,6 +440,9 @@ const Mens = () => {
                   </div>
                 </div>
               </article>
+              {/* End Filter Product by Catefgory */}
+
+              {/* Start Filter Product by Price Range */}
               <article className="filter-group">
                 <header
                   className="card-header"
@@ -293,8 +457,11 @@ const Mens = () => {
                       type="range"
                       className="custom-range"
                       min="0"
-                      max="100"
-                      name=""
+                      max="10000"
+                      step="100"
+                      name=""     
+                      value={rangeData}
+                      onChange={(e) => setRangeData(e.target.value)}                 
                     />
                     <div className="form-row">
                       <div className="form-group col-md-6">
@@ -303,6 +470,9 @@ const Mens = () => {
                           className="form-control"
                           placeholder="$0"
                           type="number"
+                          
+                          onChange={filterProductBasedonMinPrice}
+                          value={filterMinPrice}
                         />
                       </div>
                       <div className="form-group text-right col-md-6">
@@ -311,6 +481,8 @@ const Mens = () => {
                           className="form-control"
                           placeholder="$1,0000"
                           type="number"
+                          onChange={filterProductBasedonMaxPrice}
+                          value={filterMaxPrice}
                         />
                       </div>
                     </div>
@@ -318,186 +490,311 @@ const Mens = () => {
                   </div>
                 </div>
               </article>
+              {/* End Filter Product by Price Range */}
+
+              {/* Start Filter Product by Brands */}
               <article className="filter-group">
                 <header
                   className="card-header"
-                  style={{ backgroundColor: "#fff", marginBottom: "28px" }}
+                  style={{
+                    backgroundColor: "#fff",
+                    marginBottom: "28px",
+                    display: "flex",
+                  }}
                 >
-                  <i className="icon-control fa fa-chevron-down"></i>
-                  <h6 className="title">BRANDS </h6>
+                  <button
+                    onClick={ShowBrandFilter}
+                    style={{
+                      border: 0,
+                      backgroundColor: "#fff",
+                      marginLeft: "231px",
+                    }}
+                  >
+                    <i className="icon-control fa fa-chevron-down"></i>
+                  </button>
+                  <h6 className="title" style={{ marginLeft: "-265px" }}>
+                    BRANDS{" "}
+                  </h6>
                 </header>
-                {productdata.map((data) => {
-                  if (!setBrand.includes(data.brands)) {
-                    setBrand.push(data.brands);
-                  }
-                })}
-                {setBrand.map((data, index) => {
-                  return (
-                    <div
-                      className="filter-content collapse show"
-                      id="collapse_2"
-                    >
-                      <div className="card-body" style={{ marginTop: "-13px" }}>
-                        <label
-                          className="custom-control custom-checkbox"
-                          style={{ marginTop: "-20px" }}
+                {hideBrand ? (
+                  <div>
+                    {productdata.map((data) => {
+                      if (!setBrand.includes(data.brands)) {
+                        setBrand.push(data.brands);
+                      }
+                    })}
+                    {setBrand.map((data, index) => {
+                      return (
+                        <div
+                          className="filter-content collapse show"
+                          id="collapse_2"
                         >
+                          <div
+                            className="card-body"
+                            style={{ marginTop: "-13px" }}
+                          >
+                            <label
+                              className="custom-control custom-checkbox"
+                              style={{ marginTop: "-20px" }}
+                            >
+                              <input
+                                type="checkbox"
+                                value={data}
+                                className="custom-control-input"
+                                id={`flexCheckDefault-${index}`}                               
+                                onChange={filterBrandProducts}
+                              />
+                              <div className="custom-control-label">{data}</div>
+                            </label>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </article>
+              {/* End Filter Product by Brands */}
+
+              {/* Start Filter Product by discount */}
+              <article className="filter-group">
+                <header
+                  className="card-header"
+                  style={{ backgroundColor: "#fff", display: "flex",marginTop:"-28px" }}
+                >
+                  <button
+                    onClick={ShowDiscountFilter}
+                    style={{
+                      border: 0,
+                      backgroundColor: "#fff",
+                      marginLeft: "231px",
+                    }}
+                  >
+                    <i className="icon-control fa fa-chevron-down"></i>
+                  </button>
+                  <h6 className="title" style={{ marginLeft: "-265px" }}>
+                    DISCOUNT
+                  </h6>
+                </header>
+                {hideDiscount ? (
+                  <div style={{marginTop:"26px"}}>
+                    {productdata.map((data) => {
+                      if (!setDiscount.includes(data.percDiscount)) {
+                        setDiscount.push(data.percDiscount);
+                      }
+                    })}
+                    {setDiscount.map((data, index) => {
+                      return(<div className="filter-content collapse show" id="collapse_2">
+                      <div className="card-body" >
+                        <label className="custom-control custom-checkbox" style={{ marginTop: "-40px" }}>
                           <input
                             type="checkbox"
                             className="custom-control-input"
-                            id={`flexCheckDefault-${index}`}
+                            id = {`flexCheckDefault-${index}`}
                             onChange={(e) =>
-                              filterBrandProducts(e.target.value)
+                              filterDiscountProducts(e.target.value)
                             }
                             value={data}
                           />
-                          <div className="custom-control-label">{data}</div>
-                        </label>
+                          <div className="custom-control-label">{data}% or more</div>
+                        </label>                        
                       </div>
                     </div>
-                  );
-                })}
-              </article>
-              <article className="filter-group">
-                <header
-                  className="card-header"
-                  style={{ backgroundColor: "#fff" }}
-                >
-                  <i className="icon-control fa fa-chevron-down"></i>
-                  <h6 className="title">DISCOUNT </h6>
-                </header>
-                <div className="filter-content collapse show" id="collapse_2">
-                  <div className="card-body">
-                    <label className="custom-control custom-checkbox">
-                      <input type="checkbox" className="custom-control-input" />
-                      <div className="custom-control-label">30% and more</div>
-                    </label>
-                    <label className="custom-control custom-checkbox">
-                      <input type="checkbox" className="custom-control-input" />
-                      <div className="custom-control-label">40% and more</div>
-                    </label>
-                    <label className="custom-control custom-checkbox">
-                      <input type="checkbox" className="custom-control-input" />
-                      <div className="custom-control-label">50% and more</div>
-                    </label>
-                    <label className="custom-control custom-checkbox">
-                      <input type="checkbox" className="custom-control-input" />
-                      <div className="custom-control-label">60% and more</div>
-                    </label>
-                    <label className="custom-control custom-checkbox">
-                      <input type="checkbox" className="custom-control-input" />
-                      <div className="custom-control-label">70% and more</div>
-                    </label>
+                    );
+                  })}
                   </div>
-                </div>
+                  
+                ) : (
+                  ""
+                )}
               </article>
+              {/* End Filter Product by discount */}
+
+              {/* Start Fiter Product by Size */}
               <article className="filter-group">
                 <header
                   className="card-header"
-                  style={{ backgroundColor: "#fff", marginBottom: "28px" }}
+                  style={{
+                    backgroundColor: "#fff",
+                    marginBottom: "28px",
+                    display: "flex",
+                  }}
                 >
-                  <i className="icon-control fa fa-chevron-down"></i>
-                  <h6 className="title">SIZES </h6>
+                  <button
+                    onClick={ShowSizeFilter}
+                    style={{
+                      border: 0,
+                      backgroundColor: "#fff",
+                      marginLeft: "231px",
+                    }}
+                  >
+                    <i className="icon-control fa fa-chevron-down"></i>
+                  </button>
+                  <h6 className="title" style={{ marginLeft: "-265px" }}>
+                    SIZES{" "}
+                  </h6>
                 </header>
-                {productdata.map((data) => {
-                  if (!setSize.includes(data.size)) {
-                    setSize.push(data.size);
-                  }
-                })}
-                {setSize.map((data, index) => {
-                  return (
-                    <div
-                      className="filter-content collapse show"
-                      id="collapse_2"
-                    >
-                      <div className="card-body" style={{ marginTop: "-13px" }}>
-                        <label
-                          className="custom-control custom-checkbox"
-                          style={{ marginTop: "-20px" }}
+                {hideSize ? (
+                  <div>
+                    {productdata.map((data) => {
+                      if (!setSize.includes(data.size)) {
+                        setSize.push(data.size);
+                      }
+                    })}
+                    {setSize.map((data, index) => {
+                      return (
+                        <div
+                          className="filter-content collapse show"
+                          id="collapse_2"
                         >
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id={`flexCheckDefault-${index}`}
-                            onChange={(e) => filterSizeProducts(e.target.value)}
-                            value={data}
-                          />
-                          <div className="custom-control-label">{data} </div>
-                        </label>
-                      </div>
-                    </div>
-                  );
-                })}
-              </article>
-              <article className="filter-group">
-                <header
-                  className="card-header"
-                  style={{ backgroundColor: "#fff", marginBottom: "28px" }}
-                >
-                  <i className="icon-control fa fa-chevron-down"></i>
-                  <h6 className="title">COLORS </h6>
-                </header>
-                {productdata.map((data) => {
-                  if (!setColorFilter.includes(data.color)) {
-                    setColorFilter.push(data.color);
-                  }
-                })}
-                {setColorFilter.map((data, index) => {
-                  return (
-                    <div
-                      className="filter-content collapse show"
-                      id="collapse_2"
-                    >
-                      <div className="card-body" style={{ marginTop: "-13px" }}>
-                        <label
-                          className="custom-control custom-checkbox"
-                          style={{ marginTop: "-20px" }}
-                        >
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id={`flexCheckDefault-${index}`}
-                            onChange={(e) => filterProducts(e.target.value)}
-                            value={data}
-                          />
-                          <div className="custom-control-label">{data} </div>
-                        </label>
-                      </div>
-                    </div>
-                  );
-                })}
-              </article>
-              <article className="filter-group">
-                <header
-                  className="card-header"
-                  style={{ backgroundColor: "#fff" }}
-                >
-                  <i className="icon-control fa fa-chevron-down"></i>
-                  <h6 className="title">SLEEVES </h6>
-                </header>
-                <div className="filter-content collapse show" id="collapse_2">
-                  <div className="card-body">
-                    <label className="custom-control custom-checkbox">
-                      <input type="checkbox" className="custom-control-input" />
-                      <div className="custom-control-label">Full Sleeves</div>
-                    </label>
-                    <label className="custom-control custom-checkbox">
-                      <input type="checkbox" className="custom-control-input" />
-                      <div className="custom-control-label">Half Sleeves</div>
-                    </label>
-                    <label className="custom-control custom-checkbox">
-                      <input type="checkbox" className="custom-control-input" />
-                      <div className="custom-control-label">Sleeveless</div>
-                    </label>
-                    <label className="custom-control custom-checkbox">
-                      <input type="checkbox" className="custom-control-input" />
-                      <div className="custom-control-label">
-                        Roll Up Sleeves
-                      </div>
-                    </label>
+                          <div
+                            className="card-body"
+                            style={{ marginTop: "-13px" }}
+                          >
+                            <label
+                              className="custom-control custom-checkbox"
+                              style={{ marginTop: "-20px" }}
+                            >
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id={`flexCheckDefault-${index}`}
+                                onChange={(e) =>
+                                  filterSizeProducts(e.target.value)
+                                }
+                                value={data}
+                              />
+                              <div className="custom-control-label">
+                                {data}{" "}
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                </div>
+                ) : (
+                  ""
+                )}
               </article>
+              {/* End Fiter Product by Size */}
+
+              {/* Start Filter Product by Color */}
+              <article className="filter-group">
+                <header
+                  className="card-header"
+                  style={{ backgroundColor: "#fff", display: "flex", marginTop:"-28px" }}
+                >
+                  <button
+                    onClick={ShowColorFilter}
+                    style={{
+                      border: 0,
+                      backgroundColor: "#fff",
+                      marginLeft: "231px",
+                    }}
+                  >
+                    <i className="icon-control fa fa-chevron-down"></i>
+                  </button>
+                  <h6 className="title" style={{ marginLeft: "-265px" }}>
+                    COLORS
+                  </h6>
+                </header>
+
+                {hideColor ? (
+                  <div style={{marginTop:"26px"}}>
+                    {productdata.map((data) => {
+                      if (!setColorFilter.includes(data.color)) {
+                        setColorFilter.push(data.color);
+                      }
+                    })}
+                    {setColorFilter.map((data, index) => {
+                      return (
+                        <div
+                          className="filter-content collapse show"
+                          id="collapse_2"
+                        >
+                          <div
+                            className="card-body"                            
+                          >
+                            <label
+                              className="custom-control custom-checkbox"
+                              style={{ marginTop: "-40px" }}
+                            >
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id={`flexCheckDefault-${index}`}
+                                onChange={(e) => filterProductsBasedOnColor(e)}
+                                value={data}
+                              />
+                              <div className="custom-control-label">
+                                {data}{" "}
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </article>
+              {/* End Filter Product by Color */}
+
+              {/* Start Filter Product by Sleeves */}
+              <article className="filter-group">
+                <header
+                  className="card-header"
+                  style={{ backgroundColor: "#fff", display: "flex" }}
+                >
+                  <button
+                    onClick={ShowSleevesFilter}
+                    style={{
+                      border: 0,
+                      backgroundColor: "#fff",
+                      marginLeft: "231px",
+                    }}
+                  >
+                    <i className="icon-control fa fa-chevron-down"></i>
+                  </button>
+                  <h6 className="title" style={{ marginLeft: "-265px" }}>
+                    SLEEVES
+                  </h6>
+                </header>
+                {hideSleevs ? (
+                  <div style={{marginTop:"26px"}}>
+                    {productdata.map((data) => {
+                      if (!setfilterSleeves.includes(data.sleeve)) {
+                        setfilterSleeves.push(data.sleeve);
+                      }
+                    })}
+                    {setfilterSleeves.map((data, index) => {
+                    return(
+                      <div className="filter-content collapse show" id="collapse_2">
+                    <div className="card-body">
+                      <label className="custom-control custom-checkbox" style={{ marginTop: "-40px" }}>
+                        <input
+                          type="checkbox"
+                          className="custom-control-input"
+                          id={`flexCheckDefault-${index}`}
+                                onChange={(e) => filterProductsBasedOnSleeve(e)}
+                                value={data}
+                        />
+                        <div className="custom-control-label">{data}</div>
+                      </label>                      
+                    </div>
+                  </div>
+                    );
+                  })}
+                  </div>
+                 
+                ) : (
+                  ""
+                )}
+              </article>
+              {/* End Filter Product by Sleeves */}
             </div>
           </aside>
           {/* End Filters the products */}
@@ -505,17 +802,11 @@ const Mens = () => {
           {/* Start Bind the Product based on the filters */}
           <main
             className="col-md-9 my-2"
-            style={{ backgroundColor: "#fff", width: "930px" }}
+            style={{ backgroundColor: "#fff", width: "963px" }}
           >
             <section id="mensSection my-1">
               <div className="row">
-                {productdata
-                  .filter((data) =>
-                    Object.keys(toCheck).length === 0
-                      ? true
-                      : !!toCheck[(data.color, data.brands)]
-                  )
-                  .map((data) => {
+                {mensCategory.map((data) => {
                     return (
                       <div
                         className=" col-12 col-md-12 col-lg-4 mb-4 my-1"

@@ -616,14 +616,14 @@ export default function OrderResponse() {
                           {status === "Cancelled" && (
                           <ul className="list-group list-group-flush">
                             <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                              <spna
+                              <span
                                 style={{ fontWeight: "600", fontSize: "14px" }}
                               >
                                 <AiTwotoneQuestionCircle
                                   style={{ color: "red" }}
                                 />{" "}
                                 Cancelled on
-                              </spna>
+                              </span>
                             </li>
                             <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                 <p style={{ fontSize: "12px" }}>
@@ -654,7 +654,7 @@ export default function OrderResponse() {
                               </li>
                               <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                 <Link
-                                  to={`/ratingandreviews/${data.orderTrackId}`}
+                                  to={`/ratingandreviews/${data.productId}`}
                                   align="justify"
                                   style={{ textDecoration: "none" }}
                                 >
@@ -694,14 +694,14 @@ export default function OrderResponse() {
                           {status === "Out For Delivery" && (
                           <ul className="list-group list-group-flush">
                             <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                              <spna
+                              <span
                                 style={{ fontWeight: "600", fontSize: "14px" }}
                               >
                                 <AiTwotoneQuestionCircle
                                   style={{ color: "green" }}
                                 />
                                 Out For Delivery on
-                              </spna>
+                              </span>
                             </li>
                             <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                 <p style={{ fontSize: "12px" }}>
@@ -713,14 +713,14 @@ export default function OrderResponse() {
                           {status === "Shipped" && (
                           <ul className="list-group list-group-flush">
                             <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                              <spna
+                              <span
                                 style={{ fontWeight: "600", fontSize: "14px" }}
                               >
                                 <AiTwotoneQuestionCircle
                                   style={{ color: "green" }}
                                 />{" "}
                                 Shipped on
-                              </spna>
+                              </span>
                             </li>
                             <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                 <p style={{ fontSize: "12px" }}>
@@ -732,14 +732,14 @@ export default function OrderResponse() {
                           {status === "Order Confirmed" && (
                           <ul className="list-group list-group-flush">
                             <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                              <spna
+                              <span
                                 style={{ fontWeight: "600", fontSize: "14px" }}
                               >
                                 <AiTwotoneQuestionCircle
                                   style={{ color: "green" }}
                                 />{" "}
                                 Order Confirmed on
-                              </spna>
+                              </span>
                             </li>
                             <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                 <p style={{ fontSize: "12px" }}>
