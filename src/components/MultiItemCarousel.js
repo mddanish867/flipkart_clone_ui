@@ -52,9 +52,7 @@ export default function MultiItemCarousel() {
     },
   };
 
-  const RefreshComponent = () =>{
-    window.open(`http://localhost:3000/productdetails/${productId}`);
-  }
+  
   const product = productdata.map((data) => (   
     <div className="container" key={data.productId}>
       <Link to={`/productdetails/${data.productId}`} id="productLink" target="_blank">
@@ -101,12 +99,13 @@ export default function MultiItemCarousel() {
       <button
         style={{
           backgroundColor: "#0d6efd",
-          marginLeft: "1120px",
+          marginLeft: "1180px",
           border: 0,
           color: "#fff",
+          borderRadius:"50%"
         }}
       >
-        View All <FaAngleRight />
+        <FaAngleRight style={{marginTop:"-6px"}}/>
       </button>
       <Carousel responsive={responsive}>{product}</Carousel>;
     </div>

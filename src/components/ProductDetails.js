@@ -8,6 +8,7 @@ import {
   BiPlus,
   BiMinus,
 } from "react-icons/bi";
+import { FaPlus } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
 import { MdLocationPin } from "react-icons/md";
@@ -17,7 +18,9 @@ import { FaAngleRight } from "react-icons/fa6";
 import "./ProductDetails.css";
 import MultiItemCarousel from "./MultiItemCarousel";
 import Swal from "sweetalert2";
-import SmilarItemCarousel from "./MuliItemCarousel/SmilarItemCarousel";
+import Carousel from "react-multi-carousel";
+import PostQuestions from "./Popups/PostQuestions";
+import { BsHeart } from "react-icons/bs";
 
 export default function ProductDetails() {
   let params = useParams();
@@ -39,7 +42,10 @@ export default function ProductDetails() {
   const [visible, setvisible] = useState(3);
   const [getProductQuestionair, setProductQuestionair] = useState([]);
   const [visibleTop3Question, setvisibleTop3Question] = useState(3);
-
+  const [productdata, setProductData] = useState([]);
+  const [showModel, setShowwModel] = useState(false);
+  const [mensCategory, setMensCategory] = useState([]);
+  const [boughtTogetherProduct, setBoughtTogetherProduct] = useState(3);
   let sumOfAllRating = 0;
   let totalRatingCount = 0;
   let totalReviewCount = 0;
@@ -54,25 +60,33 @@ export default function ProductDetails() {
     getRatingReviews();
     getRatingReviewDetails();
     getProeductQuestionair();
+    productBoughtData();
   }, []);
 
-  // method to get all product question and answers for perticular product
+  const productBoughtData = async () => {
+    const response = await axios.get("https://localhost:7274/api/Products/RetrieveProductList/products?Category=Mens%20Wear");
+    setMensCategory(response.data.result);
+  }
+
+  // ================== start method to get all product question and answers for perticular product ========================
   const getProeductQuestionair = async () => {
     const response = await axios.get(
       `https://localhost:7274/api/Products/ProductQuestionair/product-id/${params.productId}/product-questionair-details`
     );
     setProductQuestionair(response.data.result);
   };
+  // ================== End method to get all product question and answers for perticular product ========================
 
-  // method to get all product rating ang and review details
+  // ================== Start method to get all product rating ang and review details ====================================
   const getRatingReviewDetails = async () => {
     const response = await axios.get(
       `https://localhost:7274/api/Products/ProductRatingDetails/product-id/${params.productId}/rating-reviews-details`
     );
     setRatingDetails(response.data.result);
   };
+  // ================== End method to get all product rating ang and review details ======================================
 
-  // method to get all product rating and reviews for perticular product
+  // ============= Start method to get all product rating and reviews for perticular product =============================
   const getRatingReviews = async () => {
     const response = await axios.get(
       `https://localhost:7274/api/Products/ProductRatings/product-id/${params.productId}/rating-reviews`
@@ -89,7 +103,9 @@ export default function ProductDetails() {
     setTotalReviews(totalReviewCount);
     setAverageRating(averageratingCount);
   };
+  // ============= End method to get all product rating and reviews for perticular product ===============================
 
+  // ================================ Start method to get delivery address of customer ===================================
   const getDeliveryAddress = async () => {
     const response = await axios.get(
       `https://localhost:7274/api/Account/RetrieveDeliveryAddress/user_name/${localStorage.getItem(
@@ -104,16 +120,18 @@ export default function ProductDetails() {
         response.data.result[0].zip
     );
   };
+  // ================================ End method to get delivery address of customer =====================================
 
-  // method to get all product images based on Id
+  // ====================== Start method to get all product images based on Id ===========================================
   const getproductimage = async () => {
     const response = await axios.get(
       `https://localhost:7274/api/Products/RetrieveProductDetails/id/${params.productId}/products`
     );
     setProductimage(response.data.result);
   };
+  // ====================== End method to get all product images based on Id =============================================
 
-  // method to get product based on id
+  // =============================== Start method to get product based on id =============================================
   const getproductData = async () => {
     const response = await axios.get(
       `https://localhost:7274/api/Products/RetrieveProductList/products?ProductId=${params.productId}`
@@ -123,22 +141,27 @@ export default function ProductDetails() {
     sub = response.data.result[0].subCategory;
     recommendedPrudtcs();
   };
+  // =============================== End method to get product based on id ===============================================
 
-  // method to get recommended product based on selection
+  // =============================== Start method to get recommended product based on selection ==========================
   const recommendedPrudtcs = async () => {
     const response = await axios.get(
       `https://localhost:7274/api/Products/RetrieveProductList/products?SubCategory=${sub}`
     );
     setRecommendation(response.data.result);
+    // Simialr product based on selected product
+    setProductData(response.data.result);
   };
+  // =============================== End method to get recommended product based on selection ============================
 
-  // method to check if the products is already exists into cart or not
+  // =============================== Start method to check if the products is already exists into cart or not ============
   const checkExistingProduct = async () => {
     const response = await axios.get(
       `https://localhost:7274/api/Cart/RetrieveCartDetails/cart?ProductId=${params.productId}`
     );
     setExistingProductId(response.data.result[0].productId);
   };
+  // =============================== End method to check if the products is already exists into cart or not ==============
 
   // method to decrease the products count
 
@@ -151,7 +174,7 @@ export default function ProductDetails() {
   //   count < stockCount ? setCount(count + 1) : setCount(stockCount);
   // };
 
-  // Method to add the products ino cart
+  // =================================== Start Method to add the products ino cart =============================
   const handleAddToCart = () => {
     let flag = false;
     if (existingProductId.toString() === params.productId) {
@@ -190,7 +213,9 @@ export default function ProductDetails() {
         });
     }
   };
+  // =================================== End Method to add the products ino cart ===============================
 
+  // =================================== Start method to save product into wishlist ============================
   const handeSavetoFavurite = () => {
     if (userName === "" || userName === null || userName === undefined) {
       navigate("/signin");
@@ -212,7 +237,9 @@ export default function ProductDetails() {
         });
     }
   };
+  // =================================== End method to save product into wishlist ==============================
 
+  // =================================== Start method to show product details ==================================
   function showDetails() {
     if (showProductDetails === false) {
       setshowProductDetails(true);
@@ -220,7 +247,9 @@ export default function ProductDetails() {
       setshowProductDetails(false);
     }
   }
+  // =================================== End method to show product details ====================================
 
+  // =================================== Start method to handle product rating =================================
   const handleRateProduct = () => {
     if (
       localStorage.getItem("email") === "" ||
@@ -232,6 +261,110 @@ export default function ProductDetails() {
       navigate("ratingandreviews");
     }
   };
+  // =================================== End method to handle product rating ===================================
+
+  // ======================================== Start Similar product ========================================
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 6,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  };
+
+  const product = productdata.map((data) => (
+    <div className="container" key={data.productId}>
+      <Link
+        to={`/productdetails/${data.productId}`}
+        id="productLink"
+        target="_blank"
+      >
+        <div
+          className="card bg-body rounded"
+          style={{ border: "none", width: "180px", height: "190px" }}
+        >
+          <img
+            src={data.productImageurl}
+            className="card-img-top"
+            alt="Laptop"
+            id="cardImage"
+            style={{ height: "150px", width: "130px" }}
+          />
+          <div className="card-body">
+            <div className="d-flex justify-content-between">
+              <p className="small">
+                <a
+                  href="/productdetails"
+                  className="text-muted"
+                  id="productName"
+                >
+                  {data.productName.slice(0, 18)}...
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </div>
+  ));
+  // ========================================== End Simialr product ==========================================
+
+  // ========================================== Start method to open Product Question component ==============
+  const closeModel = () => setShowwModel(false);
+  // ========================================== End method to open Product Question component ================
+
+  // ==========================================                         ======================================
+  // Method to add the products ino favourites
+  // const handleWishList = (productId) => {
+  //   let flag = false;
+  //     if (existingProductId.toString() === params.productId) {
+  //       flag = true;        
+  //     }
+    
+  //   if (flag === false) {
+  //     const data = {       
+  //       ProductId: productId,
+  //       UserName: username,
+  //       errormessage: "",
+  //     };
+  //     const url = "https://localhost:7274/api/Products/AddProductstoFavourite/favourites";
+  //     axios
+  //       .post(url, data)
+  //       .then((result) => {
+  //         Swal.fire({
+  //           position: 'center',
+  //           icon: 'success',
+  //           title: (result.data.message),
+  //           showConfirmButton: false,
+  //           timer: 1500
+  //         })
+  //         if (result.data.message === "OK") {
+  //           window.location.reload();
+  //           navigate("/wishlist");
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         Swal.fire({
+  //           icon: 'error',
+  //           title: 'Oops...',
+  //           text: 'Something went wrong!',
+  //           footer: {error}
+  //         })
+  //       });
+  //   }
+  // };
 
   return (
     <>
@@ -247,7 +380,7 @@ export default function ProductDetails() {
             >
               {ProductImage.map((data) => {
                 return (
-                  <div className="row imgRowDetails">
+                  <div className="row imgRowDetails" key={data.imageId}>
                     <div className="column imgClmDetails">
                       <div className="d-flex justify-content-center mb-3">
                         <a
@@ -274,7 +407,11 @@ export default function ProductDetails() {
           </div>
           {getProductId.map((data) => {
             return (
-              <div className="col-10" style={{ backgroundColor: "#fff" }}>
+              <div
+                className="col-10"
+                style={{ backgroundColor: "#fff" }}
+                key={data.productId}
+              >
                 <section className="py-5" style={{ marginLeft: "-40px" }}>
                   <div className="container">
                     <div className="row">
@@ -526,7 +663,7 @@ export default function ProductDetails() {
                               Color
                               {ProductImage.map((data) => {
                                 return (
-                                  <div>
+                                  <div key={data.imageId}>
                                     <input
                                       type="radio"
                                       className="btn-check"
@@ -784,7 +921,7 @@ export default function ProductDetails() {
 
                           {ratingDetails.slice(0, visible).map((data) => {
                             return (
-                              <div>
+                              <div key={data.ratingId}>
                                 <div
                                   style={{
                                     display: "flex",
@@ -891,25 +1028,27 @@ export default function ProductDetails() {
                             .slice(0, visibleTop3Question)
                             .map((data) => {
                               return (
-                                <div>
+                                <div key={data.questionId}>
                                   <h6 className="my-4">Q: {data.questions}?</h6>
                                   <p style={{ marginTop: "-10px" }}>
                                     A: {data.answers}
                                   </p>
-                                  <div style={{ display: "flex"}}>
-                                  <IoIosCheckmarkCircle
-                                    style={{ color: "gray" }}
-                                  />
-                                  <p
-                                    className="mx-1"
-                                    style={{ marginTop: "-5px", color: "gray" }}
-                                  >
-                                    Certified Buyer
-                                  </p>
-                                </div>
+                                  <div style={{ display: "flex" }}>
+                                    <IoIosCheckmarkCircle
+                                      style={{ color: "gray" }}
+                                    />
+                                    <p
+                                      className="mx-1"
+                                      style={{
+                                        marginTop: "-5px",
+                                        color: "gray",
+                                      }}
+                                    >
+                                      Certified Buyer
+                                    </p>
+                                  </div>
                                   <hr />
                                 </div>
-                                
                               );
                             })}
                           <Link
@@ -921,6 +1060,31 @@ export default function ProductDetails() {
                           >
                             All questions <FaAngleRight />
                           </Link>
+                          <div style={{ display: "flex" }}>
+                            <h6 style={{width:"275px"}} className="my-2">Have doubts regarding this product?</h6>
+                            <button
+                              style={{
+                                boxShadow: "none",
+                                border: "none",
+                                color: "#fff",
+                                fontSize: "14px",
+                                width: "auto",
+                                padding: "8px 16px",
+                                backgroundColor: "#2874f0",
+                                cursor: "pointer",
+                                textTransform: "capitalize",
+                                fontWeight: 500,
+                                marginLeft: "250px",
+                                borderRadius:"2px"
+                              }}
+                              onClick={() => setShowwModel(true)}
+                            >
+                              Post Your Question
+                            </button>
+                            {showModel && (
+                              <PostQuestions closeModel={closeModel} />
+                            )}
+                          </div>
                         </div>
                       </main>
                     </div>
@@ -930,8 +1094,301 @@ export default function ProductDetails() {
             );
           })}
         </div>
+        {/* Start Bind the Product based on the filters */}
+        <main
+            className="col-md-12 my-2"
+            style={{ backgroundColor: "#fff", width: "1263px" }}
+          >
+            <h4>Frequently bought together</h4>
+            <section id="mensSection my-1" style={{display:"flex"}}>
+              <div className="row">
+                {getProductId.map((data) => {
+                    return (
+                      <div
+                        className=" col-12 col-md-12 col-lg-4 mb-4"
+                        id="roundedCircle"
+                        style={{ marginRight: "-23px", width: "290px" }}
+                      >
+                        <Link
+                          to={`/productdetails/${data.productId}`}
+                          id="productLink"
+                          target="-blank"
+                          key={data.productId}
+                        >
+                          <div className="card bg-body" style={{ border: 0 }}>
+                            <div className="d-flex justify-content-between p-2">
+                              <div
+                                className="d-flex align-items-center justify-content-center"
+                                style={{
+                                  border: 0,
+                                  borderRadius: "0 0 0 0",
+                                  marginLeft: "185px",
+                                }}
+                              >
+                                <Link
+                                  className="btn btn-white px-2"
+                                  type="button"
+                                  id="button-addon1"
+                                  data-mdb-ripple-color="white"                                  
+                                >
+                                  <BsHeart style={{ color: "gray" }} />
+                                </Link>
+                              </div>
+                            </div>
+                            <img
+                              src={data.productImageurl}
+                              className="card-img-top"
+                              alt="Laptop"
+                              id="cardImage"
+                            />
+                            <div className="card-body">
+                              <div className="justify-content-between">
+                                <h6 className="text-muted">
+                                  {data.productName.slice(0, 18)}
+                                </h6>                                
+                                <p className="mb-0" id="prodcutDesc">
+                                    {data.productDescription.slice(0, 18)}
+                                  </p>
+                              </div>
+
+                              <div className="d-flex justify-content-between mb-3">
+                                <h5 className="text-dark mb-0">
+                                  &#8377;{data.productDiscount}
+                                </h5>
+                                <p className="small text-muted">
+                                  <s>&#8377;{data.productPrice}</s>
+                                </p>
+                                <p className="small text-success">
+                                  <b>
+                                    &#8377;
+                                    {(
+                                      (data.productDiscount /
+                                        data.productPrice) *
+                                      100
+                                    ).toFixed(2)}{" "}
+                                    off
+                                  </b>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    );
+                  })}
+              </div>
+              <div style={{marginTop:"170px",width:"30px",marginLeft:"20px"}}>
+              <FaPlus />
+              </div>
+              <div className="row">
+                {getProductId.map((data) => {
+                    return (
+                      <div
+                        className=" col-12 col-md-12 col-lg-4 mb-4"
+                        id="roundedCircle"
+                        style={{ marginRight: "-23px", width: "290px" }}
+                      >
+                        <Link
+                          to={`/productdetails/${data.productId}`}
+                          id="productLink"
+                          target="-blank"
+                          key={data.productId}
+                        >
+                          <div className="card bg-body" style={{ border: 0 }}>
+                            <div className="d-flex justify-content-between p-2">
+                              <div
+                                className="d-flex align-items-center justify-content-center"
+                                style={{
+                                  border: 0,
+                                  borderRadius: "0 0 0 0",
+                                  marginLeft: "185px",
+                                }}
+                              >
+                                <Link
+                                  className="btn btn-white px-2"
+                                  type="button"
+                                  id="button-addon1"
+                                  data-mdb-ripple-color="white"                                  
+                                >
+                                  <BsHeart style={{ color: "gray" }} />
+                                </Link>
+                              </div>
+                            </div>
+                            <img
+                              src={data.productImageurl}
+                              className="card-img-top"
+                              alt="Laptop"
+                              id="cardImage"
+                            />
+                            <div className="card-body">
+                              <div className="justify-content-between">
+                                <h6 className="text-muted">
+                                  {data.productName.slice(0, 18)}
+                                </h6>                                
+                                <p className="mb-0" id="prodcutDesc">
+                                    {data.productDescription.slice(0, 18)}
+                                  </p>
+                              </div>
+
+                              <div className="d-flex justify-content-between mb-3">
+                                <h5 className="text-dark mb-0">
+                                  &#8377;{data.productDiscount}
+                                </h5>
+                                <p className="small text-muted">
+                                  <s>&#8377;{data.productPrice}</s>
+                                </p>
+                                <p className="small text-success">
+                                  <b>
+                                    &#8377;
+                                    {(
+                                      (data.productDiscount /
+                                        data.productPrice) *
+                                      100
+                                    ).toFixed(2)}{" "}
+                                    off
+                                  </b>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    );
+                  })}
+              </div>
+              <div style={{marginTop:"170px",width:"30px",marginLeft:"20px"}}>
+              <FaPlus />
+              </div>
+              <div className="row">
+                {getProductId.map((data) => {
+                    return (
+                      <div
+                        className=" col-12 col-md-12 col-lg-4 mb-4"
+                        id="roundedCircle"
+                        style={{ marginRight: "-23px", width: "290px" }}
+                      >
+                        <Link
+                          to={`/productdetails/${data.productId}`}
+                          id="productLink"
+                          target="-blank"
+                          key={data.productId}
+                        >
+                          <div className="card bg-body" style={{ border: 0 }}>
+                            <div className="d-flex justify-content-between p-2">
+                              <div
+                                className="d-flex align-items-center justify-content-center"
+                                style={{
+                                  border: 0,
+                                  borderRadius: "0 0 0 0",
+                                  marginLeft: "185px",
+                                }}
+                              >
+                                <Link
+                                  className="btn btn-white px-2"
+                                  type="button"
+                                  id="button-addon1"
+                                  data-mdb-ripple-color="white"                                  
+                                >
+                                  <BsHeart style={{ color: "gray" }} />
+                                </Link>
+                              </div>
+                            </div>
+                            <img
+                              src={data.productImageurl}
+                              className="card-img-top"
+                              alt="Laptop"
+                              id="cardImage"
+                            />
+                            <div className="card-body">
+                              <div className="justify-content-between">
+                                <h6 className="text-muted">
+                                  {data.productName.slice(0, 18)}
+                                </h6>                                
+                                <p className="mb-0" id="prodcutDesc">
+                                    {data.productDescription.slice(0, 18)}
+                                  </p>
+                              </div>
+
+                              <div className="d-flex justify-content-between mb-3">
+                                <h5 className="text-dark mb-0">
+                                  &#8377;{data.productDiscount}
+                                </h5>
+                                <p className="small text-muted">
+                                  <s>&#8377;{data.productPrice}</s>
+                                </p>
+                                <p className="small text-success">
+                                  <b>
+                                    &#8377;
+                                    {(
+                                      (data.productDiscount /
+                                        data.productPrice) *
+                                      100
+                                    ).toFixed(2)}{" "}
+                                    off
+                                  </b>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                    );
+                  })}
+              </div>  
+              <div style={{width:"350px",marginLeft:"40px",marginTop:"20px"}}>
+                
+                  <h6 style={{color:"#878787",fontSize:"14px"}}> Price Summary</h6>
+                  <hr style={{border:"1px dashed #878787"}}/>
+                  <p className="my-4" style={{fontSize:"20px"}}>Main Product Selected <span style={{marginLeft:"150px"}}>189</span></p>
+                  <p className="my-4" style={{fontSize:"20px"}}>2 Addons Selected <span style={{marginLeft:"175px"}}>340</span></p>
+                  <hr style={{border:"1px dashed #878787"}}/>
+                  <h6 style={{fontSize:"20px"}}>Total <span style={{marginLeft:"275px"}}>540</span></h6>
+                  
+                  <button style={{
+            boxShadow: "0 1px 2px 0 rgba(0,0,0,.26)",
+            border: "none",
+            color: "#fff",
+            fontSize: "16px",
+            width: "350px",
+            padding: "16px 0",
+            backgroundColor: "#ff9f00",
+            cursor: "pointer",
+            textTransform: "capitalize",
+            fontWeight:500,
+            marginTop:"75px"
+            
+          }}          
+          >
+          ADD 3 ITEMS TO CART
+          </button>
+                  </div>            
+            </section>           
+          </main>
+          {/* End Bind the Product based on the filters */}
         <div>
-          <SmilarItemCarousel sub={sub} />
+          <div
+            style={{
+              boxShadow: "0 2px 4px 0 rgba(0,0,0,.08)",
+              marginTop: "10px",
+              backgroundColor: "#fff",
+              height: "300px",
+              marginLeft: "16px",
+              marginRight: "16px",
+            }}
+          >
+            <h4 style={{ marginLeft: "16px" }}> Similar Items #</h4>
+            <button
+              style={{
+                backgroundColor: "#0d6efd",
+                marginLeft: "1120px",
+                border: 0,
+                color: "#fff",
+              }}
+            >
+              View All <FaAngleRight />
+            </button>
+            <Carousel responsive={responsive}>{product}</Carousel>;
+          </div>
         </div>
         <div>
           {/* <h4 className="mx-4">Frequently bought together</h4> */}
@@ -953,208 +1410,6 @@ export default function ProductDetails() {
         <section className="bg-light border-top py-4">
           <div className="container">
             <div className="row gx-4">
-              <div className="col-lg-8 mb-4">
-                <div className="border rounded-2 px-3 py-2 bg-white">
-                  {/* <!-- Pills navs --> */}
-                  <ul
-                    className="nav nav-pills nav-justified mb-3"
-                    id="ex1"
-                    role="tablist"
-                  >
-                    <li className="nav-item d-flex" role="presentation">
-                      <Link
-                        className="nav-link d-flex align-items-center justify-content-center w-100 active"
-                        id="ex1-tab-1"
-                        data-mdb-toggle="pill"
-                        to=""
-                        role="tab"
-                        aria-controls="ex1-pills-1"
-                        aria-selected="true"
-                      >
-                        Item Details
-                      </Link>
-                    </li>
-                    <li className="nav-item d-flex" role="presentation">
-                      <Link
-                        className="nav-link d-flex align-items-center justify-content-center w-100"
-                        id="ex1-tab-2"
-                        data-mdb-toggle="pill"
-                        to=""
-                        role="tab"
-                        aria-controls="ex1-pills-2"
-                        aria-selected="false"
-                      >
-                        Rating & Reviews
-                      </Link>
-                    </li>
-                    <li className="nav-item d-flex" role="presentation">
-                      <Link
-                        className="nav-link d-flex align-items-center justify-content-center w-100"
-                        id="ex1-tab-3"
-                        data-mdb-toggle="pill"
-                        to=""
-                        role="tab"
-                        aria-controls="ex1-pills-3"
-                        aria-selected="false"
-                      >
-                        Questions & Answers
-                      </Link>
-                    </li>
-                    <li className="nav-item d-flex" role="presentation">
-                      <Link
-                        className="nav-link d-flex align-items-center justify-content-center w-100"
-                        id="ex1-tab-4"
-                        data-mdb-toggle="pill"
-                        to=""
-                        role="tab"
-                        aria-controls="ex1-pills-4"
-                        aria-selected="false"
-                      >
-                        Seller profile
-                      </Link>
-                    </li>
-                  </ul>
-                  {/* <!-- Pills navs --> */}
-
-                  {/* <!-- Pills content --> */}
-                  <div className="tab-content" id="ex1-content">
-                    <div
-                      className="tab-pane fade show active"
-                      id="ex1-pills-1"
-                      role="tabpanel"
-                      aria-labelledby="ex1-tab-1"
-                    >
-                      <p>
-                        With supporting text below as a natural lead-in to
-                        additional content. Lorem ipsum dolor sit amet,
-                        consectetur adipisicing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris
-                        nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                        dolor in reprehenderit in voluptate velit esse cillum
-                        dolore eu fugiat nulla pariatur.
-                      </p>
-                      <div className="row mb-2">
-                        <div className="col-12 col-md-6">
-                          <ul className="list-unstyled mb-0">
-                            <li>
-                              <i className="fas fa-check text-success me-2"></i>
-                              Some great feature name here
-                            </li>
-                            <li>
-                              <i className="fas fa-check text-success me-2"></i>
-                              Lorem ipsum dolor sit amet, consectetur
-                            </li>
-                            <li>
-                              <i className="fas fa-check text-success me-2"></i>
-                              Duis aute irure dolor in reprehenderit
-                            </li>
-                            <li>
-                              <i className="fas fa-check text-success me-2"></i>
-                              Optical heart sensor
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="col-12 col-md-6 mb-0">
-                          <ul className="list-unstyled">
-                            <li>
-                              <i className="fas fa-check text-success me-2"></i>
-                              Easy fast and ver good
-                            </li>
-                            <li>
-                              <i className="fas fa-check text-success me-2"></i>
-                              Some great feature name here
-                            </li>
-                            <li>
-                              <i className="fas fa-check text-success me-2"></i>
-                              Modern style and design
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <table className="table border mt-3 mb-2">
-                        <tr>
-                          <th className="py-2">Display:</th>
-                          <td className="py-2">
-                            13.3-inch LED-backlit display with IPS
-                          </td>
-                        </tr>
-                        <tr>
-                          <th className="py-2">Processor capacity:</th>
-                          <td className="py-2">
-                            2.3GHz dual-core Intel Core i5
-                          </td>
-                        </tr>
-                        <tr>
-                          <th className="py-2">Camera quality:</th>
-                          <td className="py-2">720p FaceTime HD camera</td>
-                        </tr>
-                        <tr>
-                          <th className="py-2">Memory</th>
-                          <td className="py-2">8 GB RAM or 16 GB RAM</td>
-                        </tr>
-                        <tr>
-                          <th className="py-2">Graphics</th>
-                          <td className="py-2">Intel Iris Plus Graphics 640</td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div
-                      className="tab-pane fade mb-2"
-                      id="ex1-pills-2"
-                      role="tabpanel"
-                      aria-labelledby="ex1-tab-2"
-                    >
-                      Tab content or sample information now <br />
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum. Lorem ipsum
-                      dolor sit amet, consectetur adipisicing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo
-                    </div>
-                    <div
-                      className="tab-pane fade mb-2"
-                      id="ex1-pills-3"
-                      role="tabpanel"
-                      aria-labelledby="ex1-tab-3"
-                    >
-                      Another tab content or sample information now <br />
-                      Dolor sit amet, consectetur adipisicing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </div>
-                    <div
-                      className="tab-pane fade mb-2"
-                      id="ex1-pills-4"
-                      role="tabpanel"
-                      aria-labelledby="ex1-tab-4"
-                    >
-                      Some other tab content or sample information now <br />
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
-                    </div>
-                  </div>
-                  {/* <!-- Pills content --> */}
-                </div>
-              </div>
               <div className="col-lg-4">
                 <div className="px-0 border rounded-2 shadow-0">
                   <div className="card">
@@ -1163,8 +1418,8 @@ export default function ProductDetails() {
 
                       {recommendation.map((data) => {
                         return (
-                          <div className="d-flex mb-3">
-                            <a href="/" className="me-3">
+                          <div className="d-flex mb-3" key={data.productId}>
+                            <a href="!#" className="me-3">
                               <img
                                 src={data.productImageurl}
                                 id="productDetails4"
@@ -1173,7 +1428,7 @@ export default function ProductDetails() {
                               />
                             </a>
                             <div className="info">
-                              <a href="/" className="nav-link mb-1">
+                              <a href="#" className="nav-link mb-1">
                                 {data.productName}
                               </a>
                               <strong className="text-dark">

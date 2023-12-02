@@ -40,7 +40,7 @@ export default function PostQuestions({closeModel}) {
                   marginTop: "45px",
                   borderRight: "1px solid #f0f0f0",
                   backgroundColor: "#fafafa",
-                  borderRadius:"3px"
+                  borderRadius:"3px",height:"370px",
                 }}
               >
                 <ul style={{ marginTop: "10px", marginLeft: "-12px" }}>
@@ -66,7 +66,7 @@ export default function PostQuestions({closeModel}) {
                   marginTop: "45px",
                   backgroundColor: "#fff",
                   width: "556px",
-                  height:"320px",
+                  height:"370px",
                   borderRadius:"3px"
                 }}
               >
@@ -84,7 +84,7 @@ export default function PostQuestions({closeModel}) {
                     rows="3"
                     placeholder="Type your question here.."
                     style={{
-                      height: "180px",
+                      height: "230px",
                       marginTop: "25px",
                       borderRadius: "0 0 0 0",
                       borderLeft: 0,
@@ -102,14 +102,15 @@ export default function PostQuestions({closeModel}) {
                       color: "#212121",
                       fontSize: "14px",
                       width: "200px",
-                      padding: "16px 0",
+                      padding: "14px 0",
                       backgroundColor: "#fb641b",
                       cursor: "pointer",
                       textTransform: "capitalize",
                       fontWeight: 500,
                       marginLeft: "320px",
-                      marginTop:"-5px",
-                      color:"#fff"
+                      color:"#fff",
+                      borderRadius:"2px",
+                      height:"48px"
                     }}
                   >
                     SUBMIT
