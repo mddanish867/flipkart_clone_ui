@@ -1339,10 +1339,10 @@ export default function ProductDetails() {
                 
                   <h6 style={{color:"#878787",fontSize:"14px"}}> Price Summary</h6>
                   <hr style={{border:"1px dashed #878787"}}/>
-                  <p className="my-4" style={{fontSize:"20px"}}>Main Product Selected <span style={{marginLeft:"150px"}}>189</span></p>
-                  <p className="my-4" style={{fontSize:"20px"}}>2 Addons Selected <span style={{marginLeft:"175px"}}>340</span></p>
+                  <p className="my-4" style={{fontSize:"20px"}}>Main Product Selected <span style={{marginLeft:"100px"}}>189</span></p>
+                  <p className="my-4" style={{fontSize:"20px"}}>2 Addons Selected <span style={{marginLeft:"138px"}}>340</span></p>
                   <hr style={{border:"1px dashed #878787"}}/>
-                  <h6 style={{fontSize:"20px"}}>Total <span style={{marginLeft:"275px"}}>540</span></h6>
+                  <h6 style={{fontSize:"20px"}}>Total <span style={{marginLeft:"257px"}}>540</span></h6>
                   
                   <button style={{
             boxShadow: "0 1px 2px 0 rgba(0,0,0,.26)",
