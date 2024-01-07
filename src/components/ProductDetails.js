@@ -64,9 +64,11 @@ export default function ProductDetails() {
   }, []);
 
   const productBoughtData = async () => {
-    const response = await axios.get("https://localhost:7274/api/Products/RetrieveProductList/products?Category=Mens%20Wear");
+    const response = await axios.get(
+      "https://localhost:7274/api/Products/RetrieveProductList/products?Category=Mens%20Wear"
+    );
     setMensCategory(response.data.result);
-  }
+  };
 
   // ================== start method to get all product question and answers for perticular product ========================
   const getProeductQuestionair = async () => {
@@ -191,6 +193,7 @@ export default function ProductDetails() {
       axios
         .post(url, data)
         .then((result) => {
+          console.log(data);
           Swal.fire({
             position: "center",
             icon: "success",
@@ -272,7 +275,7 @@ export default function ProductDetails() {
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 6,
+      items: 5,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -295,12 +298,31 @@ export default function ProductDetails() {
           className="card bg-body rounded"
           style={{ border: "none", width: "180px", height: "190px" }}
         >
+          <div className="d-flex justify-content-between p-2">
+            <div
+              className="d-flex align-items-center justify-content-center"
+              style={{
+                border: 0,
+                borderRadius: "0 0 0 0",
+                marginLeft: "160px",
+              }}
+            >
+              <Link
+                className="btn btn-white px-2"
+                type="button"
+                id="button-addon1"
+                data-mdb-ripple-color="white"
+              >
+                <BsHeart style={{ color: "gray" }} />
+              </Link>
+            </div>
+          </div>
           <img
             src={data.productImageurl}
             className="card-img-top"
             alt="Laptop"
             id="cardImage"
-            style={{ height: "150px", width: "130px" }}
+            style={{ height: "170px", width: "200px" }}
           />
           <div className="card-body">
             <div className="d-flex justify-content-between">
@@ -330,11 +352,11 @@ export default function ProductDetails() {
   // const handleWishList = (productId) => {
   //   let flag = false;
   //     if (existingProductId.toString() === params.productId) {
-  //       flag = true;        
+  //       flag = true;
   //     }
-    
+
   //   if (flag === false) {
-  //     const data = {       
+  //     const data = {
   //       ProductId: productId,
   //       UserName: username,
   //       errormessage: "",
@@ -1061,7 +1083,9 @@ export default function ProductDetails() {
                             All questions <FaAngleRight />
                           </Link>
                           <div style={{ display: "flex" }}>
-                            <h6 style={{width:"275px"}} className="my-2">Have doubts regarding this product?</h6>
+                            <h6 style={{ width: "275px" }} className="my-2">
+                              Have doubts regarding this product?
+                            </h6>
                             <button
                               style={{
                                 boxShadow: "none",
@@ -1075,7 +1099,7 @@ export default function ProductDetails() {
                                 textTransform: "capitalize",
                                 fontWeight: 500,
                                 marginLeft: "250px",
-                                borderRadius:"2px"
+                                borderRadius: "2px",
                               }}
                               onClick={() => setShowwModel(true)}
                             >
@@ -1096,275 +1120,283 @@ export default function ProductDetails() {
         </div>
         {/* Start Bind the Product based on the filters */}
         <main
-            className="col-md-12 my-2"
-            style={{ backgroundColor: "#fff", width: "1263px" }}
-          >
-            <h4>Frequently bought together</h4>
-            <section id="mensSection my-1" style={{display:"flex"}}>
-              <div className="row">
-                {getProductId.map((data) => {
-                    return (
-                      <div
-                        className=" col-12 col-md-12 col-lg-4 mb-4"
-                        id="roundedCircle"
-                        style={{ marginRight: "-23px", width: "290px" }}
-                      >
-                        <Link
-                          to={`/productdetails/${data.productId}`}
-                          id="productLink"
-                          target="-blank"
-                          key={data.productId}
-                        >
-                          <div className="card bg-body" style={{ border: 0 }}>
-                            <div className="d-flex justify-content-between p-2">
-                              <div
-                                className="d-flex align-items-center justify-content-center"
-                                style={{
-                                  border: 0,
-                                  borderRadius: "0 0 0 0",
-                                  marginLeft: "185px",
-                                }}
-                              >
-                                <Link
-                                  className="btn btn-white px-2"
-                                  type="button"
-                                  id="button-addon1"
-                                  data-mdb-ripple-color="white"                                  
-                                >
-                                  <BsHeart style={{ color: "gray" }} />
-                                </Link>
-                              </div>
-                            </div>
-                            <img
-                              src={data.productImageurl}
-                              className="card-img-top"
-                              alt="Laptop"
-                              id="cardImage"
-                            />
-                            <div className="card-body">
-                              <div className="justify-content-between">
-                                <h6 className="text-muted">
-                                  {data.productName.slice(0, 18)}
-                                </h6>                                
-                                <p className="mb-0" id="prodcutDesc">
-                                    {data.productDescription.slice(0, 18)}
-                                  </p>
-                              </div>
-
-                              <div className="d-flex justify-content-between mb-3">
-                                <h5 className="text-dark mb-0">
-                                  &#8377;{data.productDiscount}
-                                </h5>
-                                <p className="small text-muted">
-                                  <s>&#8377;{data.productPrice}</s>
-                                </p>
-                                <p className="small text-success">
-                                  <b>
-                                    &#8377;
-                                    {(
-                                      (data.productDiscount /
-                                        data.productPrice) *
-                                      100
-                                    ).toFixed(2)}{" "}
-                                    off
-                                  </b>
-                                </p>
-                              </div>
-                            </div>
+          className="col-md-12 my-2"
+          style={{ backgroundColor: "#fff", width: "1263px" }}
+        >
+          <h4>Frequently bought together</h4>
+          <section id="mensSection my-1" style={{ display: "flex" }}>
+            <div className="row">
+              {getProductId.map((data) => {
+                return (
+                  <div
+                    className=" col-12 col-md-12 col-lg-4 mb-4"
+                    id="roundedCircle"
+                    style={{ marginRight: "-23px", width: "290px" }}
+                  >
+                    <Link
+                      to={`/productdetails/${data.productId}`}
+                      id="productLink"
+                      target="-blank"
+                      key={data.productId}
+                    >
+                      <div className="card bg-body" style={{ border: 0 }}>
+                        <div className="d-flex justify-content-between p-2">
+                          <div
+                            className="d-flex align-items-center justify-content-center"
+                            style={{
+                              border: 0,
+                              borderRadius: "0 0 0 0",
+                              marginLeft: "185px",
+                            }}
+                          >
+                           <div className="form-check">
+  <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked"/>
+</div>
                           </div>
-                        </Link>
+                        </div>
+                        <img
+                          src={data.productImageurl}
+                          className="card-img-top"
+                          alt="Laptop"
+                          id="cardImage"
+                        />
+                        <div className="card-body">
+                          <div className="justify-content-between">
+                            <h6 className="text-muted">
+                              {data.productName.slice(0, 18)}
+                            </h6>
+                            <p className="mb-0" id="prodcutDesc">
+                              {data.productDescription.slice(0, 18)}
+                            </p>
+                          </div>
+
+                          <div className="d-flex justify-content-between mb-3">
+                            <h5 className="text-dark mb-0">
+                              &#8377;{data.productDiscount}
+                            </h5>
+                            <p className="small text-muted">
+                              <s>&#8377;{data.productPrice}</s>
+                            </p>
+                            <p className="small text-success">
+                              <b>
+                                &#8377;
+                                {(
+                                  (data.productDiscount / data.productPrice) *
+                                  100
+                                ).toFixed(2)}{" "}
+                                off
+                              </b>
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    );
-                  })}
-              </div>
-              <div style={{marginTop:"170px",width:"30px",marginLeft:"20px"}}>
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+            <div
+              style={{ marginTop: "170px", width: "30px", marginLeft: "20px" }}
+            >
               <FaPlus />
-              </div>
-              <div className="row">
-                {getProductId.map((data) => {
-                    return (
-                      <div
-                        className=" col-12 col-md-12 col-lg-4 mb-4"
-                        id="roundedCircle"
-                        style={{ marginRight: "-23px", width: "290px" }}
-                      >
-                        <Link
-                          to={`/productdetails/${data.productId}`}
-                          id="productLink"
-                          target="-blank"
-                          key={data.productId}
-                        >
-                          <div className="card bg-body" style={{ border: 0 }}>
-                            <div className="d-flex justify-content-between p-2">
-                              <div
-                                className="d-flex align-items-center justify-content-center"
-                                style={{
-                                  border: 0,
-                                  borderRadius: "0 0 0 0",
-                                  marginLeft: "185px",
-                                }}
-                              >
-                                <Link
-                                  className="btn btn-white px-2"
-                                  type="button"
-                                  id="button-addon1"
-                                  data-mdb-ripple-color="white"                                  
-                                >
-                                  <BsHeart style={{ color: "gray" }} />
-                                </Link>
-                              </div>
-                            </div>
-                            <img
-                              src={data.productImageurl}
-                              className="card-img-top"
-                              alt="Laptop"
-                              id="cardImage"
-                            />
-                            <div className="card-body">
-                              <div className="justify-content-between">
-                                <h6 className="text-muted">
-                                  {data.productName.slice(0, 18)}
-                                </h6>                                
-                                <p className="mb-0" id="prodcutDesc">
-                                    {data.productDescription.slice(0, 18)}
-                                  </p>
-                              </div>
-
-                              <div className="d-flex justify-content-between mb-3">
-                                <h5 className="text-dark mb-0">
-                                  &#8377;{data.productDiscount}
-                                </h5>
-                                <p className="small text-muted">
-                                  <s>&#8377;{data.productPrice}</s>
-                                </p>
-                                <p className="small text-success">
-                                  <b>
-                                    &#8377;
-                                    {(
-                                      (data.productDiscount /
-                                        data.productPrice) *
-                                      100
-                                    ).toFixed(2)}{" "}
-                                    off
-                                  </b>
-                                </p>
-                              </div>
-                            </div>
+            </div>
+            <div className="row">
+              {getProductId.map((data) => {
+                return (
+                  <div
+                    className=" col-12 col-md-12 col-lg-4 mb-4"
+                    id="roundedCircle"
+                    style={{ marginRight: "-23px", width: "290px" }}
+                  >
+                    <Link
+                      to={`/productdetails/${data.productId}`}
+                      id="productLink"
+                      target="-blank"
+                      key={data.productId}
+                    >
+                      <div className="card bg-body" style={{ border: 0 }}>
+                        <div className="d-flex justify-content-between p-2">
+                          <div
+                            className="d-flex align-items-center justify-content-center"
+                            style={{
+                              border: 0,
+                              borderRadius: "0 0 0 0",
+                              marginLeft: "185px",
+                            }}
+                          >
+                            <Link
+                              className="btn btn-white px-2"
+                              type="button"
+                              id="button-addon1"
+                              data-mdb-ripple-color="white"
+                            >
+                              <BsHeart style={{ color: "gray" }} />
+                            </Link>
                           </div>
-                        </Link>
+                        </div>
+                        <img
+                          src={data.productImageurl}
+                          className="card-img-top"
+                          alt="Laptop"
+                          id="cardImage"
+                        />
+                        <div className="card-body">
+                          <div className="justify-content-between">
+                            <h6 className="text-muted">
+                              {data.productName.slice(0, 18)}
+                            </h6>
+                            <p className="mb-0" id="prodcutDesc">
+                              {data.productDescription.slice(0, 18)}
+                            </p>
+                          </div>
+
+                          <div className="d-flex justify-content-between mb-3">
+                            <h5 className="text-dark mb-0">
+                              &#8377;{data.productDiscount}
+                            </h5>
+                            <p className="small text-muted">
+                              <s>&#8377;{data.productPrice}</s>
+                            </p>
+                            <p className="small text-success">
+                              <b>
+                                &#8377;
+                                {(
+                                  (data.productDiscount / data.productPrice) *
+                                  100
+                                ).toFixed(2)}{" "}
+                                off
+                              </b>
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    );
-                  })}
-              </div>
-              <div style={{marginTop:"170px",width:"30px",marginLeft:"20px"}}>
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+            <div
+              style={{ marginTop: "170px", width: "30px", marginLeft: "20px" }}
+            >
               <FaPlus />
-              </div>
-              <div className="row">
-                {getProductId.map((data) => {
-                    return (
-                      <div
-                        className=" col-12 col-md-12 col-lg-4 mb-4"
-                        id="roundedCircle"
-                        style={{ marginRight: "-23px", width: "290px" }}
-                      >
-                        <Link
-                          to={`/productdetails/${data.productId}`}
-                          id="productLink"
-                          target="-blank"
-                          key={data.productId}
-                        >
-                          <div className="card bg-body" style={{ border: 0 }}>
-                            <div className="d-flex justify-content-between p-2">
-                              <div
-                                className="d-flex align-items-center justify-content-center"
-                                style={{
-                                  border: 0,
-                                  borderRadius: "0 0 0 0",
-                                  marginLeft: "185px",
-                                }}
-                              >
-                                <Link
-                                  className="btn btn-white px-2"
-                                  type="button"
-                                  id="button-addon1"
-                                  data-mdb-ripple-color="white"                                  
-                                >
-                                  <BsHeart style={{ color: "gray" }} />
-                                </Link>
-                              </div>
-                            </div>
-                            <img
-                              src={data.productImageurl}
-                              className="card-img-top"
-                              alt="Laptop"
-                              id="cardImage"
-                            />
-                            <div className="card-body">
-                              <div className="justify-content-between">
-                                <h6 className="text-muted">
-                                  {data.productName.slice(0, 18)}
-                                </h6>                                
-                                <p className="mb-0" id="prodcutDesc">
-                                    {data.productDescription.slice(0, 18)}
-                                  </p>
-                              </div>
-
-                              <div className="d-flex justify-content-between mb-3">
-                                <h5 className="text-dark mb-0">
-                                  &#8377;{data.productDiscount}
-                                </h5>
-                                <p className="small text-muted">
-                                  <s>&#8377;{data.productPrice}</s>
-                                </p>
-                                <p className="small text-success">
-                                  <b>
-                                    &#8377;
-                                    {(
-                                      (data.productDiscount /
-                                        data.productPrice) *
-                                      100
-                                    ).toFixed(2)}{" "}
-                                    off
-                                  </b>
-                                </p>
-                              </div>
-                            </div>
+            </div>
+            <div className="row">
+              {getProductId.map((data) => {
+                return (
+                  <div
+                    className=" col-12 col-md-12 col-lg-4 mb-4"
+                    id="roundedCircle"
+                    style={{ marginRight: "-23px", width: "290px" }}
+                  >
+                    <Link
+                      to={`/productdetails/${data.productId}`}
+                      id="productLink"
+                      target="-blank"
+                      key={data.productId}
+                    >
+                      <div className="card bg-body" style={{ border: 0 }}>
+                        <div className="d-flex justify-content-between p-2">
+                          <div
+                            className="d-flex align-items-center justify-content-center"
+                            style={{
+                              border: 0,
+                              borderRadius: "0 0 0 0",
+                              marginLeft: "185px",
+                            }}
+                          >
+                            <Link
+                              className="btn btn-white px-2"
+                              type="button"
+                              id="button-addon1"
+                              data-mdb-ripple-color="white"
+                            >
+                              <BsHeart style={{ color: "gray" }} />
+                            </Link>
                           </div>
-                        </Link>
+                        </div>
+                        <img
+                          src={data.productImageurl}
+                          className="card-img-top"
+                          alt="Laptop"
+                          id="cardImage"
+                        />
+                        <div className="card-body">
+                          <div className="justify-content-between">
+                            <h6 className="text-muted">
+                              {data.productName.slice(0, 18)}
+                            </h6>
+                            <p className="mb-0" id="prodcutDesc">
+                              {data.productDescription.slice(0, 18)}
+                            </p>
+                          </div>
+
+                          <div className="d-flex justify-content-between mb-3">
+                            <h5 className="text-dark mb-0">
+                              &#8377;{data.productDiscount}
+                            </h5>
+                            <p className="small text-muted">
+                              <s>&#8377;{data.productPrice}</s>
+                            </p>
+                            <p className="small text-success">
+                              <b>
+                                &#8377;
+                                {(
+                                  (data.productDiscount / data.productPrice) *
+                                  100
+                                ).toFixed(2)}{" "}
+                                off
+                              </b>
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    );
-                  })}
-              </div>  
-              <div style={{width:"350px",marginLeft:"40px",marginTop:"20px"}}>
-                
-                  <h6 style={{color:"#878787",fontSize:"14px"}}> Price Summary</h6>
-                  <hr style={{border:"1px dashed #878787"}}/>
-                  <p className="my-4" style={{fontSize:"20px"}}>Main Product Selected <span style={{marginLeft:"100px"}}>189</span></p>
-                  <p className="my-4" style={{fontSize:"20px"}}>2 Addons Selected <span style={{marginLeft:"138px"}}>340</span></p>
-                  <hr style={{border:"1px dashed #878787"}}/>
-                  <h6 style={{fontSize:"20px"}}>Total <span style={{marginLeft:"257px"}}>540</span></h6>
-                  
-                  <button style={{
-            boxShadow: "0 1px 2px 0 rgba(0,0,0,.26)",
-            border: "none",
-            color: "#fff",
-            fontSize: "16px",
-            width: "350px",
-            padding: "16px 0",
-            backgroundColor: "#ff9f00",
-            cursor: "pointer",
-            textTransform: "capitalize",
-            fontWeight:500,
-            marginTop:"75px"
-            
-          }}          
-          >
-          ADD 3 ITEMS TO CART
-          </button>
-                  </div>            
-            </section>           
-          </main>
-          {/* End Bind the Product based on the filters */}
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+            <div
+              style={{ width: "350px", marginLeft: "40px", marginTop: "20px" }}
+            >
+              <h6 style={{ color: "#878787", fontSize: "14px" }}>
+                {" "}
+                Price Summary
+              </h6>
+              <hr style={{ border: "1px dashed #878787" }} />
+              <p className="my-4" style={{ fontSize: "20px" }}>
+                Main Product Selected{" "}
+                <span style={{ marginLeft: "100px" }}>189</span>
+              </p>
+              <p className="my-4" style={{ fontSize: "20px" }}>
+                2 Addons Selected{" "}
+                <span style={{ marginLeft: "138px" }}>340</span>
+              </p>
+              <hr style={{ border: "1px dashed #878787" }} />
+              <h6 style={{ fontSize: "20px" }}>
+                Total <span style={{ marginLeft: "257px" }}>540</span>
+              </h6>
+
+              <button
+                style={{
+                  boxShadow: "0 1px 2px 0 rgba(0,0,0,.26)",
+                  border: "none",
+                  color: "#fff",
+                  fontSize: "16px",
+                  width: "350px",
+                  padding: "16px 0",
+                  backgroundColor: "#ff9f00",
+                  cursor: "pointer",
+                  textTransform: "capitalize",
+                  fontWeight: 500,
+                  marginTop: "75px",
+                }}
+              >
+                ADD 3 ITEMS TO CART
+              </button>
+            </div>
+          </section>
+        </main>
+        {/* End Bind the Product based on the filters */}
         <div>
           <div
             style={{
