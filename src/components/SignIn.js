@@ -32,9 +32,16 @@ export default function SignIn() {
           showConfirmButton: false,
           timer: 1500,
         });
-        //  alert(response.data.message);
+        // Store email in localStorage (not sensitive)
         localStorage.setItem("email", data.email);
-        localStorage.setItem("jwtToken", response.data.result);
+        // Store JWT in a cookie instead of localStorage to mitigate XSS theft.
+        // Note: This cookie is not httpOnly; the server should set an httpOnly cookie for production.
+        const expires = new Date();
+        expires.setHours(expires.getHours() + 1); // 1 hour expiry
+        document.cookie =
+          `jwtToken=${encodeURIComponent(
+            response.data.result
+          )}; Path=/; Expires=${expires.toUTCString()}; Secure; SameSite=Strict`;
         navigate("/");
         window.location.reload();
       })
@@ -53,7 +60,6 @@ export default function SignIn() {
       <div className="container">
         <div className="row justify-content-center">
           <div className="my-5">
-            {/* <div className="card-body p-0"> */}
             <div className="row">
               <div
                 className="col-3"
@@ -189,27 +195,10 @@ export default function SignIn() {
                         New to Anjumart? Create an account
                       </Link>
                     </p>
-                    {/* <p>or sign up with:</p>
-    <button type="button" className="btn btn-link btn-floating mx-1">
-      <i className="fab fa-facebook-f"></i>
-    </button>
-
-    <button type="button" className="btn btn-link btn-floating mx-1">
-      <i className="fab fa-google"></i>
-    </button>
-
-    <button type="button" className="btn btn-link btn-floating mx-1">
-      <i className="fab fa-twitter"></i>
-    </button>
-
-    <button type="button" className="btn btn-link btn-floating mx-1">
-      <i className="fab fa-github"></i>
-    </button> */}
                   </div>
                 </form>
               </div>
             </div>
-            {/* </div> */}
           </div>
         </div>
       </div>
